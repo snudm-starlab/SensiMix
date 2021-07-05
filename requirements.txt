@@ -1,0 +1,7 @@
+tensorboardX
+tensorboard
+numpy
+scikit-learn
+seqeval
+# transformers==2.5.1
+tqdm
