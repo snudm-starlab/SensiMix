@@ -12,7 +12,7 @@ SensiMix
   │    │     ├── configuration_auto.py: Config class
   │    │     ├── configuration_mpqbert: MPQBERT's config
   │    │     ├── modeling_mpqbert.py: Model of MPQBERT
-  │    │     ├── modeling_mpqbert_infer.py: Model of MPQBERT for 1&8 inference
+  │    │     ├── modeling_mpqbert_infer.py: Make fast inference
   │    │     ├── optimization.py: Optimization for BERT model
   │    │     └── quantized_modules.py: Quantized operations
   │    │      
