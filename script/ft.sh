@@ -1,7 +1,3 @@
-cat /home/piaotairen/SensiMix/src/models/modeling_mpqbert.py
-cat /home/piaotairen/SensiMix/src/models/quantized_modules.py
-cat /home/piaotairen/SensiMix/src/examples/run_glue_new.py
-
 export GLUE_DIR=/home/piaotairen/data/glue_data
 export TASK_NAME=SST-2
 

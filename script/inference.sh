@@ -1,6 +1,3 @@
-cat /home/piaotairen/SensiMix/src/models/modeling_mpqbert_infer.py
-cat /home/piaotairen/SensiMix/src/models/quantized_modules.py
-cat /home/piaotairen/SensiMix/src/examples/run_glue_inference.py
 
 export GLUE_DIR=/home/piaotairen/data/glue_data
 export TASK_NAME=MRPC

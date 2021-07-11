@@ -10,24 +10,25 @@ SensiMix
   │    │     
   │    ├── models
   │    │     ├── configuration_auto.py: Config class
-  │    │     ├── configuration_mpqbert: MPQBERT's config
-  │    │     ├── modeling_mpqbert.py: Model of MPQBERT
-  │    │     ├── modeling_mpqbert_infer.py: Make fast inference
-  │    │     ├── optimization.py: Optimization for BERT model
+  │    │     ├── configuration_mpqbert: configuration of the SensiMix model
+  │    │     ├── modeling_mpqbert.py: Model of SensiMix
+  │    │     ├── modeling_mpqbert_infer.py: Model of MPQBERT for 1&8 inference
+  │    │     ├── optimization.py: Optimization for the BERT model
   │    │     └── quantized_modules.py: Quantized operations
   │    │      
   │    └── examples
-  │          ├── run_glue_new.py: train/validate on glue dataset 
+  │          ├── run_glue_new.py: train/validate the models on the GLUE benchmark tasks 
+  |          ├── run_glue_inference: load the quantized model and make inference only
   |          └── download_glue_data.py: script for dowloading the GLUE benchmark tasks
   │    
   │    
   │
-  └── script: shell scripts for running the training/testing codes
+  └── script: shell scripts for running the training/testing code
 ```
 
 
-#### Data description
-* GLUE benchmark dataset [[Homepage]](https://gluebenchmark.com/)
+#### Datasets description
+* GLUE benchmark tasks [[Homepage]](https://gluebenchmark.com/)
     * Visit the official hompage to check the detail information.
    
 #### Output
@@ -59,10 +60,10 @@ Notice: Please install the PyTorch 1.7.1 with CUDA 10.1 extension
     python setup.py install
 
 #### Run the demo.
-    make
+    bash demo.sh
 
 #### Training & Evaluating
-* Fine tuning the SensiMix model on the GLUE benchmark datasets, run script:
+* Fine-tuning the SensiMix model on the GLUE benchmark datasets, run script:
     ```    
     cd script
     bash ft.sh
@@ -105,6 +106,11 @@ Notice: Please install the PyTorch 1.7.1 with CUDA 10.1 extension
 * Run run_glue_inference.py to make fast inference
     * Load the SensiMix model that was saved.
     * Run the inference.sh to make fast inference.
+run script:
+    ```    
+    cd script
+    bash inference.sh
+    ```
 
 * For example, your inference script should like
     ```

@@ -250,6 +250,10 @@ class MPQBertSelfAttentionp(nn.Module):
         return outputs
 
 class MPQBertSelfOutput(nn.Module):
+    """
+    MQPBertSelfOutput: Provice the implementation of W_o
+    which is a simple Linear layer
+    """
     def __init__(self, config):
         super().__init__()
         self.num_attention_heads = config.num_attention_heads

@@ -103,6 +103,9 @@ def quantization(input, bits):
     return dequantized
 
 class q_Linear(nn.Linear):
+    """
+    q_Linear layer: provide the 8-bit index quantization
+    """
 
     def __init__(self, *kargs, **kwargs):
         super(q_Linear, self).__init__(*kargs, **kwargs)
