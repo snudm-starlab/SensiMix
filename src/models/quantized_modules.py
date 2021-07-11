@@ -200,13 +200,14 @@ class mix_Linear(nn.Module):
             out = nn.functional.linear(input, self.weight, self.bias)
         return out
 
-#############################################################################################################################
+
 
 # 8-bit index quantized embedding class
 class qEmbedding(nn.Embedding):
 
     def __init__(self, *kargs, **kwargs):
         super(qEmbedding, self).__init__(*kargs, **kwargs)
+
         # q_min and q_max store the minimum and the values maximum full-precision weight
         self.q_min = torch.nn.Parameter(torch.Tensor(1), requires_grad = False)
         self.q_max = torch.nn.Parameter(torch.Tensor(1), requires_grad = False)

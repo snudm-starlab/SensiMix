@@ -95,6 +95,7 @@ def dequantization(input, bit, min, max):
     return dequantized
 
 
+# The function that control the random seed
 def set_seed(args):
     random.seed(args.seed)
     np.random.seed(args.seed)

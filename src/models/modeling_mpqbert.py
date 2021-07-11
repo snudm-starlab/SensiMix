@@ -27,13 +27,13 @@ from .quantized_modules import q_Linear, qEmbedding, mix_Linear
 
 logger = logging.getLogger(__name__)
 
+# Pre-trained BERT models that provied by huggingface
 MPQBERT_PRETRAINED_MODEL_ARCHIVE_MAP = {
     "bert-base-uncased": "https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-uncased-pytorch_model.bin",
     "bert-large-uncased": "https://s3.amazonaws.com/models.huggingface.co/bert/bert-large-uncased-pytorch_model.bin",
     "bert-base-cased": "https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-cased-pytorch_model.bin",
     "bert-large-cased": "https://s3.amazonaws.com/models.huggingface.co/bert/bert-large-cased-pytorch_model.bin",
 }
-
 
 
 ACT2FN = {"gelu": gelu, "relu": torch.nn.functional.relu}
@@ -72,11 +72,11 @@ class MPQBertEmbeddings(nn.Module):
             token_type_ids = torch.zeros(input_shape, dtype=torch.long, device=device)
 
         if inputs_embeds is None:
-            inputs_embeds = self.word_embeddings(input_ids)
+            inputs_embeds = self.word_embeddings(input_ids) # inputs embeddings
 
-        position_embeddings = self.position_embeddings(position_ids)
-        token_type_embeddings = self.token_type_embeddings(token_type_ids)
-        embeddings = inputs_embeds + position_embeddings + token_type_embeddings
+        position_embeddings = self.position_embeddings(position_ids) # position embeddings
+        token_type_embeddings = self.token_type_embeddings(token_type_ids) # token type embeddings
+        embeddings = inputs_embeds + position_embeddings + token_type_embeddings # the final embedding add the three of them
 
         embeddings = self.LayerNorm(embeddings)
         embeddings = self.dropout(embeddings)
@@ -94,7 +94,6 @@ class MPQBertSelfAttention(nn.Module):
         self.output_attentions = config.output_attentions
 
         self.num_attention_heads = config.num_attention_heads
-        # self.attention_head_size = int(config.hidden_size / config.num_attention_heads)
         self.attention_head_size = config.attention_head_size
         self.all_head_size = self.num_attention_heads * self.attention_head_size
 
@@ -178,7 +177,6 @@ class MPQBertSelfAttentionp(nn.Module):
         self.output_attentions = config.output_attentions
 
         self.num_attention_heads = config.num_attention_heads
-        # self.attention_head_size = int(config.hidden_size / config.num_attention_heads)
         self.attention_head_size = config.attention_head_size
         self.all_head_size = self.num_attention_heads * self.attention_head_size
 
@@ -251,7 +249,7 @@ class MPQBertSelfAttentionp(nn.Module):
 
 class MPQBertSelfOutput(nn.Module):
     """
-    MQPBertSelfOutput: Provice the implementation of W_o
+    MQPBertSelfOutput: Implementation of W_o
     which is a simple Linear layer
     """
     def __init__(self, config):
@@ -270,6 +268,10 @@ class MPQBertSelfOutput(nn.Module):
         return hidden_states
 
 class MPQBertSelfOutputp(nn.Module):
+    """
+    MQPBertSelfOutputp: Implementation of the 8-bit index quantized W_o
+    which only replace the nn.Linear by q_Linear
+    """
     def __init__(self, config):
         super().__init__()
         self.num_attention_heads = config.num_attention_heads
@@ -379,6 +381,10 @@ class MPQBertAttentionp(nn.Module):
 
 
 class MPQBertIntermediate(nn.Module):
+    """
+    MPQBertIntermediate: Implementation of the 1st layer of FFN (intermediate layer)
+    which is a simple Linear layer
+    """
     def __init__(self, config):
         super().__init__()
         self.dense = q_Linear(config.hidden_size, config.intermediate_size)
@@ -398,6 +404,10 @@ class MPQBertIntermediate(nn.Module):
 
 # sensimix
 class MPQBertIntermediatep(nn.Module):
+    """
+    MPQBertIntermediate: Implementation of the 1-bit quantized FFN (intermediate layer)
+    which only replace the nn.Linear by mix_Linear
+    """
     def __init__(self, config):
         super().__init__()
         self.dense = mix_Linear(config.hidden_size, config.intermediate_size)
@@ -419,6 +429,10 @@ class MPQBertIntermediatep(nn.Module):
 
 
 class MPQBertOutput(nn.Module):
+    """
+    MPQBertOutput: Implementation of the the 2nd layer of FFN
+    which is a simple Linear layer
+    """
     def __init__(self, config):
         super().__init__()
         self.dense = q_Linear(config.intermediate_size, config.hidden_size)
@@ -435,6 +449,10 @@ class MPQBertOutput(nn.Module):
 
 # sensimix
 class MPQBertOutputp(nn.Module):
+    """
+    MPQBertOutputp: Implementation of the 1-bit quantized 2nd layer of FFN (output layer)
+    which only replace the nn.Linear by mix_Linear
+    """
     def __init__(self, config):
         super().__init__()
         self.dense = mix_Linear(config.intermediate_size, config.hidden_size)
@@ -452,6 +470,10 @@ class MPQBertOutputp(nn.Module):
 
 
 class MPQBertLayer(nn.Module):
+    """
+    MPQBertLayer class: implemenation of one BERT encoder layer
+    which consists of the self-attention layer and the FFN
+    """
     def __init__(self, config):
         super().__init__()
         self.attention = MPQBertAttention(config)
@@ -491,6 +513,10 @@ class MPQBertLayer(nn.Module):
 
 
 class MPQBertLayer_MP_encoder(nn.Module):
+    """
+    MPQBertLayer_MP_encoder class: implemenation of the mixed precision (MP) encoder layer
+    which consists of the 8-bit index quantized self-attention layer and the 1-bit quantized FFN
+    """
     def __init__(self, config):
         super().__init__()
         self.attention = MPQBertAttentionp(config)
@@ -534,6 +560,10 @@ class MPQBertLayer_MP_encoder(nn.Module):
 
 
 class MPQBertEncoder(nn.Module):
+    """
+    MPQBertEncoder class: implemenation of the SensiMix model
+    which consists of several MP encoder layers
+    """
     def __init__(self, config):
         super().__init__()
         self.output_attentions = config.output_attentions

@@ -104,7 +104,7 @@ def dequantization(input, bit, min, max):
     return dequantized
 
 
-
+# The function that control the random seed
 def set_seed(args):
     random.seed(args.seed)
     np.random.seed(args.seed)
@@ -235,8 +235,8 @@ def train(args, train_dataset, model, tokenizer):
                     logger.info('='*75)
                     logger.info("Fifth and more epoch => ILF: 4,5,6 layer 1-bit quantized")
                     logger.info('='*75)
-####################################################################################################################################
-     
+
+
             # Skip past any already trained steps if resuming training
             if steps_trained_in_current_epoch > 0:
                 steps_trained_in_current_epoch -= 1
@@ -483,7 +483,6 @@ def load_and_cache_examples(args, task, tokenizer, evaluate=False):
 
 
 def main():
-    loss_value = []
     parser = argparse.ArgumentParser()
 
     # Required parameters
