@@ -104,6 +104,8 @@ def quantization(input, bits):
 
     # Quantization
     quantized = torch.round((input - pmin)*(scale_int / scale_fp)) + quantized_min
+    
+    return quantized
 
 
 def set_seed(args):
