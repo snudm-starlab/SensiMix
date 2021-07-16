@@ -38,12 +38,17 @@ MPQBERT_PRETRAINED_MODEL_ARCHIVE_MAP = {
 
 ACT2FN = {"gelu": gelu, "relu": torch.nn.functional.relu}
 
-
 MPQBertLayerNorm = torch.nn.LayerNorm
 
 
 class MPQBertEmbeddings(nn.Module):
     """Construct the embeddings from word, position and token_type embeddings.
+        Input:
+        input_ids (the input words ids), 
+        token_type_ids (the input words type ids), 
+        position_ids (the input words position ids)
+        Output:
+        Word Embedidng (batch_size, max_seq_length, hidden_size)  
     """
 
     def __init__(self, config):
@@ -84,6 +89,14 @@ class MPQBertEmbeddings(nn.Module):
 
 
 class MPQBertSelfAttention(nn.Module):
+    """
+    Implementation of the self-attention layer.
+    Detailed theory can be found in the paper "Attention Is All You Need"
+    Input:
+        hidden_state (batch_size, max_seq_length, hidden_size)
+    Output:
+        hidden_state that passed the self-attention layer (batch_size, max_seq_length, hidden_size)
+    """
     def __init__(self, config):
         super().__init__()
         if config.hidden_size % config.num_attention_heads != 0:
@@ -167,6 +180,14 @@ class MPQBertSelfAttention(nn.Module):
 
 
 class MPQBertSelfAttentionp(nn.Module):
+    """
+    Implementation of the self-attention layer.
+    Detailed theory can be found in the paper "Attention Is All You Need"
+    Input:
+        hidden_state (batch_size, max_seq_length, hidden_size)
+    Output:
+        hidden_state that passed the self-attention layer (batch_size, max_seq_length, hidden_size)
+    """
     def __init__(self, config):
         super().__init__()
         if config.hidden_size % config.num_attention_heads != 0:
@@ -1367,7 +1388,7 @@ class MPQBertForSequenceClassification(MPQBertPreTrainedModel):
                 loss7 = loss_fct2(self.bert.encoder.layer[5].output.dense.weight.abs(),
                     torch.ones_like(self.bert.encoder.layer[5].output.dense.weight))
                 loss_n = loss3 + loss4 + loss6 + loss7 + loss2 + loss5
-                
+
                 # print("loss: ", loss, "ABWR loss: ", loss_n)
 
                 loss = loss + loss_n

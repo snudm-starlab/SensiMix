@@ -75,37 +75,42 @@ MODEL_CLASSES = {
 
 
 def Binarize(tensor):
+    """ Binarize function: binarize input tensors
+        Input:
+            tensor: the input tensor. 
+        Output:
+            binarized: the binarized tensor.
+    """
     binarized = torch.where(tensor>0, torch.ones_like(tensor,dtype=torch.float32, device='cuda'), torch.full((tensor.shape),-1, dtype=torch.float32, device='cuda'))
     return binarized
 
+
 def quantization(input, bits):
+    """ Combination of quantization and de-quantization function
+        Input: 
+            input: the original full-precision tensor.
+            bits: number of quantized bits.
+        Output:
+            dequantized: the de-quantized tensor.
+    """
     quantized_max = 2**(bits-1)-1 # e.g., 127 when appying 8-bit index quantization
     quantized_min = -(2**(bits-1)) # e.g., -128 when applying 8-bit index quantization
 
     pmax = input.max() # pmax: maximun weight or activation
     pmin = input.min() # pmin: minimum weight or activation
     
-    int_scale = quantized_max - quantized_min
-    fp_scale = pmax - pmin
+    scale_int = quantized_max - quantized_min # the int scale
+    scale_fp = pmax - pmin # the full-precision scale
 
-    quantized = torch.round((input - pmin)*(int_scale / fp_scale) + quantized_min)
-
-    return quantized
-
-def dequantization(input, bit, min, max):
-
-    scale_dq = max - min
-    qmin = -(2**(bit-1))
-    qmax = 2**(bit-1)-1
-    scale_q = qmax - qmin
-
-    dequantized = (input - qmin)*(scale_dq / scale_q) + min
-
-    return dequantized
+    # Quantization
+    quantized = torch.round((input - pmin)*(scale_int / scale_fp)) + quantized_min
 
 
-# The function that control the random seed
 def set_seed(args):
+    """ The function that control the random seed 
+        Input: args (arguments)
+        Output: None
+    """
     random.seed(args.seed)
     np.random.seed(args.seed)
     torch.manual_seed(args.seed)
@@ -114,7 +119,10 @@ def set_seed(args):
 
 
 def train(args, train_dataset, model, tokenizer):
-    """ Train the model """
+    """ Train the model 
+        Input: args (arguments), train_dataset (training set), model (pytorch model), tokenizer (BERT tokenizer)    
+        Output: global_step, tr_loss / global_step
+    """
     if args.local_rank in [-1, 0]:
         tb_writer = SummaryWriter()
 
@@ -352,6 +360,10 @@ def train(args, train_dataset, model, tokenizer):
 
 
 def evaluate(args, model, tokenizer, prefix=""):
+    """ Eval the model 
+        Input: args (arguments), model (pytorch model), tokenizer (BERT tokenizer)    
+        Output: results (dictionary with accuracy and other result)
+    """
     # Loop to handle MNLI double evaluation (matched, mis-matched)
     eval_task_names = ("mnli", "mnli-mm") if args.task_name == "mnli" else (args.task_name,)
     eval_outputs_dirs = (args.output_dir, args.output_dir + "-MM") if args.task_name == "mnli" else (args.output_dir,)
@@ -425,6 +437,10 @@ def evaluate(args, model, tokenizer, prefix=""):
 
 
 def load_and_cache_examples(args, task, tokenizer, evaluate=False):
+    """ Function that load the dataset
+        Input: args (arguments), task (task name), tokenizer
+        Output: dataset (can be directly used in the train and eval fuction)
+    """
     if args.local_rank not in [-1, 0] and not evaluate:
         torch.distributed.barrier()  # Make sure only the first process in distributed training process the dataset, and the others will use the cache
 

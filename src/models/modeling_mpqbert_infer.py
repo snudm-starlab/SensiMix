@@ -39,12 +39,17 @@ MPQBERT_PRETRAINED_MODEL_ARCHIVE_MAP = {
 
 ACT2FN = {"gelu": gelu, "relu": torch.nn.functional.relu}
 
-
 MPQBertLayerNorm = torch.nn.LayerNorm
 
 
 class MPQBertEmbeddings(nn.Module):
     """Construct the embeddings from word, position and token_type embeddings.
+        Input:
+        input_ids (the input words ids), 
+        token_type_ids (the input words type ids), 
+        position_ids (the input words position ids)
+        Output:
+        Word Embedidng (batch_size, max_seq_length, hidden_size)  
     """
 
     def __init__(self, config):
@@ -85,6 +90,14 @@ class MPQBertEmbeddings(nn.Module):
 
 
 class MPQBertSelfAttention(nn.Module):
+    """
+    Implementation of the self-attention layer.
+    Detailed theory can be found in the paper "Attention Is All You Need"
+    Input:
+        hidden_state (batch_size, max_seq_length, hidden_size)
+    Output:
+        hidden_state that passed the self-attention layer (batch_size, max_seq_length, hidden_size)
+    """
     def __init__(self, config):
         super().__init__()
         if config.hidden_size % config.num_attention_heads != 0:
@@ -196,6 +209,14 @@ class MPQBertSelfOutput(nn.Module):
 
 
 class MPQBertSelfAttentionp(nn.Module):
+    """
+    Implementation of the self-attention layer.
+    Detailed theory can be found in the paper "Attention Is All You Need"
+    Input:
+        hidden_state (batch_size, max_seq_length, hidden_size)
+    Output:
+        hidden_state that passed the self-attention layer (batch_size, max_seq_length, hidden_size)
+    """
     def __init__(self, config):
         super().__init__()
         if config.hidden_size % config.num_attention_heads != 0:

@@ -103,6 +103,7 @@ if is_torch_available():
         ALL_PRETRAINED_MODEL_ARCHIVE_MAP,
     )
 
+    # Import the BERT model
     from transformers import (
         BertPreTrainedModel,
         BertModel,
@@ -117,6 +118,7 @@ if is_torch_available():
         BERT_PRETRAINED_MODEL_ARCHIVE_MAP,
     )
 
+    # Import the SensiMix model
     from .modeling_mpqbert import (
         MPQBertPreTrainedModel,
         MPQBertModel,
@@ -126,6 +128,7 @@ if is_torch_available():
         MPQBERT_PRETRAINED_MODEL_ARCHIVE_MAP,
     )
 
+    # Import the SensiMix model for inference
     from .modeling_mpqbert_infer import (
         MPQBertPreTrainedModel,
         MPQBertModel,

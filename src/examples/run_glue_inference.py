@@ -83,20 +83,34 @@ MODEL_CLASSES = {
 
 
 
-def dequantization(input, bit, min, max):
+def dequantization(quantized_tensor, bit, fp_min, fp_max):
+    """ De-quantization function that aims on de-quantize the quantized model
+        Input: 
+            quantized_tensor: quantized int tensor.
+            bit: number of quantized bit.
+            fp_min: the minimum full-precision weight.
+            fp_max: the maxmimum full-precision weight.
+        Output:
+            dequantized: the de-quantized tensor.
+    """
 
-    scale_dq = max - min
-    qmin = -(2**(bit-1))
-    qmax = 2**(bit-1)-1
-    scale_q = qmax - qmin
+    scale_fp = fp_max - fp_min
+    quantized_min = -(2**(bit-1))
+    quantized_max = 2**(bit-1)-1
+    scale_int = quantized_max - quantized_min
 
-    dequantized = (input - qmin)*(scale_dq / scale_q) + min
+    # De-quantization
+    dequantized = (quantized_tensor - quantized_min) * (scale_fp / scale_int) + fp_min 
 
     return dequantized
 
 
-# The function that control the random seed
+
 def set_seed(args):
+    """ The function that control the random seed 
+        Input: args (arguments)
+        Output: None
+    """
     random.seed(args.seed)
     np.random.seed(args.seed)
     torch.manual_seed(args.seed)
@@ -105,7 +119,10 @@ def set_seed(args):
 
 
 def train(args, train_dataset, model, tokenizer):
-    """ Train the model """
+    """ Train the model 
+        Input: args (arguments), train_dataset (training set), model (pytorch model), tokenizer (BERT tokenizer)    
+        Output: global_step, tr_loss / global_step
+    """
     if args.local_rank in [-1, 0]:
         tb_writer = SummaryWriter()
 
@@ -295,6 +312,10 @@ def train(args, train_dataset, model, tokenizer):
 
 
 def evaluate(args, model, tokenizer, prefix=""):
+    """ Eval the model 
+        Input: args (arguments), model (pytorch model), tokenizer (BERT tokenizer)    
+        Output: results (dictionary with accuracy and other result)
+    """
     # Loop to handle MNLI double evaluation (matched, mis-matched)
     eval_task_names = ("mnli", "mnli-mm") if args.task_name == "mnli" else (args.task_name,)
     eval_outputs_dirs = (args.output_dir, args.output_dir + "-MM") if args.task_name == "mnli" else (args.output_dir,)
@@ -377,6 +398,10 @@ def evaluate(args, model, tokenizer, prefix=""):
 
 
 def load_and_cache_examples(args, task, tokenizer, evaluate=False):
+    """ Function that load the dataset
+        Input: args (arguments), task (task name), tokenizer
+        Output: dataset (can be directly used in the train and eval fuction)
+    """
     if args.local_rank not in [-1, 0] and not evaluate:
         torch.distributed.barrier()  # Make sure only the first process in distributed training process the dataset, and the others will use the cache
 

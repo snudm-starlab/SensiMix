@@ -13,25 +13,30 @@ import math
 import xnor_cuda
 
 
-# Binarize function: binarize input tensors
 def Binarize(tensor):
+    """ Binarize function: binarize input tensors
+        Input:
+            tensor: the input tensor. 
+        Output:
+            binarized: the binarized tensor.
+    """
     binarized = torch.where(tensor>0, torch.ones_like(tensor,dtype=torch.float32, device='cuda'), torch.full((tensor.shape),-1, dtype=torch.float32, device='cuda'))
     return binarized
 
-def xnor_linear(input, weight,bias=True):
+# def xnor_linear(input, weight,bias=True):
 
-    weight_col = Binarize(weight.t())
-    bin_weight = xnor_cuda.encode_cols(weight_col)
+#     weight_col = Binarize(weight.t())
+#     bin_weight = xnor_cuda.encode_cols(weight_col)
  
-    output1 = input.matmul(weight.t())
-    output2 = xnor_cuda.test_gemm(input,bin_weight)
-    print(torch.equal(output1, output2))
+#     output1 = input.matmul(weight.t())
+#     output2 = xnor_cuda.test_gemm(input,bin_weight)
+#     print(torch.equal(output1, output2))
 
-    if bias is not None:
-        output1 += bias
-    ret = output1
+#     if bias is not None:
+#         output1 += bias
+#     ret = output1
 
-    return ret
+#     return ret
 
 def xnor_linear_inference(input, weight, bias=True):
     output = xnor_cuda.test_gemm(input, weight)
@@ -45,6 +50,9 @@ def xnor_linear_inference(input, weight, bias=True):
 
 
 class BinarizeLinear_inference(nn.Module):
+    """ BinarizeLinear_inference class
+        This class is for xnor inference which modified the original nn.Linear that fit the xnor linear
+    """
 
     def __init__(self, in_features, out_features, bias = True):
         super(BinarizeLinear_inference, self).__init__()
@@ -87,20 +95,29 @@ class BinarizeLinear_inference(nn.Module):
 
 
 def quantization(input, bits):
+    """ Combination of quantization and de-quantization function
+        Input: 
+            input: the original full-precision tensor.
+            bits: number of quantized bits.
+        Output:
+            dequantized: the de-quantized tensor.
+    """
     quantized_max = 2**(bits-1)-1 # e.g., 127 when appying 8-bit index quantization
     quantized_min = -(2**(bits-1)) # e.g., -128 when applying 8-bit index quantization
 
     pmax = input.max() # pmax: maximun weight or activation
     pmin = input.min() # pmin: minimum weight or activation
     
-    int_scale = quantized_max - quantized_min
-    fp_scale = pmax - pmin
+    scale_int = quantized_max - quantized_min # the int scale
+    scale_fp = pmax - pmin # the full-precision scale
 
-    quantized = torch.round((input - pmin)*(int_scale / fp_scale)) + quantized_min
-
-    dequantized = (quantized - quantized_min)*(fp_scale / int_scale) + pmin
+    # Quantization
+    quantized = torch.round((input - pmin)*(scale_int / scale_fp)) + quantized_min
+    # De-quantization
+    dequantized = (quantized - quantized_min)*(scale_fp / scale_int) + pmin
 
     return dequantized
+
 
 class q_Linear(nn.Linear):
     """

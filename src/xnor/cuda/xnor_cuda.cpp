@@ -18,21 +18,17 @@ torch::Tensor encode_cols_cuda(torch::Tensor);
 torch::Tensor test_gemm_cuda(torch::Tensor, torch::Tensor);
 
 
-torch::Tensor encode_rows(torch::Tensor input)
-{
+torch::Tensor encode_rows(torch::Tensor input) {
   return encode_rows_cuda(input);
 }
 
-torch::Tensor encode_cols(torch::Tensor input)
-{
+torch::Tensor encode_cols(torch::Tensor input) {
   return encode_cols_cuda(input);
 }
 
-torch::Tensor test_gemm(torch::Tensor input_a, torch::Tensor intput_b)
-{
+torch::Tensor test_gemm(torch::Tensor input_a, torch::Tensor intput_b) {
   return test_gemm_cuda(input_a,intput_b);
 }
-
 
 
 
