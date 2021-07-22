@@ -43,13 +43,14 @@ MPQBertLayerNorm = torch.nn.LayerNorm
 
 
 class MPQBertEmbeddings(nn.Module):
-    """Construct the embeddings from word, position and token_type embeddings.
+    """
+        Construct the embeddings from word, position and token_type embeddings.
         Input:
-        input_ids (the input words ids), 
-        token_type_ids (the input words type ids), 
-        position_ids (the input words position ids)
+            input_ids (the input words ids), 
+            token_type_ids (the input words type ids), 
+            position_ids (the input words position ids)
         Output:
-        Word Embedidng (batch_size, max_seq_length, hidden_size)  
+            Word Embedidng (batch_size, max_seq_length, hidden_size)  
     """
 
     def __init__(self, config):
@@ -91,12 +92,12 @@ class MPQBertEmbeddings(nn.Module):
 
 class MPQBertSelfAttention(nn.Module):
     """
-    Implementation of the self-attention layer.
-    Detailed theory can be found in the paper "Attention Is All You Need"
-    Input:
-        hidden_state (batch_size, max_seq_length, hidden_size)
-    Output:
-        hidden_state that passed the self-attention layer (batch_size, max_seq_length, hidden_size)
+        Implementation of the self-attention layer.
+        Detailed theory can be found in the paper "Attention Is All You Need"
+        Input:
+            hidden_state (batch_size, max_seq_length, hidden_size)
+        Output:
+            hidden_state that passed the self-attention layer (batch_size, max_seq_length, hidden_size)
     """
     def __init__(self, config):
         super().__init__()
@@ -187,8 +188,8 @@ class MPQBertSelfAttention(nn.Module):
 
 class MPQBertSelfOutput(nn.Module):
     """
-    MQPBertSelfOutput: Implementation of W_o
-    which is a simple Linear layer
+        MQPBertSelfOutput: Implementation of W_o
+        which is a simple Linear layer
     """
     def __init__(self, config):
         super().__init__()
@@ -210,12 +211,12 @@ class MPQBertSelfOutput(nn.Module):
 
 class MPQBertSelfAttentionp(nn.Module):
     """
-    Implementation of the self-attention layer.
-    Detailed theory can be found in the paper "Attention Is All You Need"
-    Input:
-        hidden_state (batch_size, max_seq_length, hidden_size)
-    Output:
-        hidden_state that passed the self-attention layer (batch_size, max_seq_length, hidden_size)
+        Implementation of the self-attention layer.
+        Detailed theory can be found in the paper "Attention Is All You Need"
+        Input:
+            hidden_state (batch_size, max_seq_length, hidden_size)
+        Output:
+            hidden_state that passed the self-attention layer (batch_size, max_seq_length, hidden_size)
     """
     def __init__(self, config):
         super().__init__()
@@ -305,8 +306,8 @@ class MPQBertSelfAttentionp(nn.Module):
 
 class MPQBertSelfOutputp(nn.Module):
     """
-    MQPBertSelfOutputp: Implementation of the 8-bit index quantized W_o
-    which only replace the nn.Linear by q_Linear
+        MQPBertSelfOutputp: Implementation of the 8-bit index quantized W_o
+        which only replace the nn.Linear by q_Linear
     """
     def __init__(self, config):
         super().__init__()
@@ -419,8 +420,8 @@ class MPQBertAttentionp(nn.Module):
 
 class MPQBertIntermediate(nn.Module):
     """
-    MPQBertIntermediate: Implementation of the 1st layer of FFN (intermediate layer)
-    which is a simple Linear layer
+        MPQBertIntermediate: Implementation of the 1st layer of FFN (intermediate layer)
+        which is a simple Linear layer
     """
     def __init__(self, config):
         super().__init__()
@@ -441,8 +442,8 @@ class MPQBertIntermediate(nn.Module):
 # sensimix
 class MPQBertIntermediatep(nn.Module):
     """
-    MPQBertIntermediate: Implementation of the 1-bit quantized FFN (intermediate layer)
-    which only replace the nn.Linear by mix_Linear
+        MPQBertIntermediate: Implementation of the 1-bit quantized FFN (intermediate layer)
+        which only replace the nn.Linear by mix_Linear
     """
     def __init__(self, config):
         super().__init__()
@@ -478,8 +479,8 @@ class MPQBertIntermediatep(nn.Module):
 
 class MPQBertOutput(nn.Module):
     """
-    MPQBertOutput: Implementation of the the 2nd layer of FFN
-    which is a simple Linear layer
+        MPQBertOutput: Implementation of the the 2nd layer of FFN
+        which is a simple Linear layer
     """
     def __init__(self, config):
         super().__init__()
@@ -498,8 +499,8 @@ class MPQBertOutput(nn.Module):
 # sensimix
 class MPQBertOutputp(nn.Module):
     """
-    MPQBertOutputp: Implementation of the 1-bit quantized 2nd layer of FFN (output layer)
-    which only replace the nn.Linear by mix_Linear
+        MPQBertOutputp: Implementation of the 1-bit quantized 2nd layer of FFN (output layer)
+        which only replace the nn.Linear by mix_Linear
     """
     def __init__(self, config):
         super().__init__()
@@ -529,8 +530,8 @@ class MPQBertOutputp(nn.Module):
 
 class MPQBertLayer(nn.Module):
     """
-    MPQBertLayer class: implemenation of one BERT encoder layer
-    which consists of the self-attention layer and the FFN
+        MPQBertLayer class: implemenation of one BERT encoder layer
+        which consists of the self-attention layer and the FFN
     """
     def __init__(self, config):
         super().__init__()
@@ -569,8 +570,8 @@ class MPQBertLayer(nn.Module):
 
 class MPQBertLayer_MP_encoder(nn.Module):
     """
-    MPQBertLayer_MP_encoder class: implemenation of the mixed precision (MP) encoder layer
-    which consists of the 8-bit index quantized self-attention layer and the 1-bit quantized FFN
+        MPQBertLayer_MP_encoder class: implemenation of the mixed precision (MP) encoder layer
+        which consists of the 8-bit index quantized self-attention layer and the 1-bit quantized FFN
     """
     def __init__(self, config):
         super().__init__()
@@ -617,8 +618,8 @@ class MPQBertLayer_MP_encoder(nn.Module):
 
 class MPQBertEncoder(nn.Module):
     """
-    MPQBertEncoder class: implemenation of the SensiMix model
-    which consists of several MP encoder layers
+        MPQBertEncoder class: implemenation of the SensiMix model
+        which consists of several MP encoder layers
     """
     def __init__(self, config):
         super().__init__()

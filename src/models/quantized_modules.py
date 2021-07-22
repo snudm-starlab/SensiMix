@@ -7,6 +7,7 @@ Authors:
 This software may be used only for research evaluation purposes.
 For other purposes (e.g., commercial), please contact the authors.
 """
+
 import torch
 import torch.nn as nn
 import math
@@ -14,7 +15,8 @@ import xnor_cuda
 
 
 def Binarize(tensor):
-    """ Binarize function: binarize input tensors
+    """ 
+        Binarize function: binarize input tensors
         Input:
             tensor: the input tensor. 
         Output:
@@ -50,10 +52,10 @@ def xnor_linear_inference(input, weight, bias=True):
 
 
 class BinarizeLinear_inference(nn.Module):
-    """ BinarizeLinear_inference class
+    """ 
+        BinarizeLinear_inference class
         This class is for xnor inference which modified the original nn.Linear that fit the xnor linear
     """
-
     def __init__(self, in_features, out_features, bias = True):
         super(BinarizeLinear_inference, self).__init__()
         self.in_features = in_features
@@ -95,7 +97,8 @@ class BinarizeLinear_inference(nn.Module):
 
 
 def quantization(input, bits):
-    """ Combination of quantization and de-quantization function
+    """
+        Combination of quantization and de-quantization function
         Input: 
             input: the original full-precision tensor.
             bits: number of quantized bits.
@@ -121,7 +124,7 @@ def quantization(input, bits):
 
 class q_Linear(nn.Linear):
     """
-    q_Linear layer: provide the 8-bit index quantization
+        q_Linear layer: provide the 8-bit index quantization
     """
 
     def __init__(self, *kargs, **kwargs):
@@ -150,6 +153,16 @@ class q_Linear(nn.Linear):
 
 
 class mix_Linear(nn.Module):
+    """
+        class mix_Linear: provide implementations of 32-bit and 1-bit layers
+        Input:
+            input (Tensor)
+            bit_1_quantize (1-bit quantization flag)
+            layer_number (the layer number)
+            bit_32_quantize (full-precision flag)
+        Output:
+            out (Tensor)
+    """
 
     def __init__(self, in_features, out_features, bias = True):
         super(mix_Linear, self).__init__()
@@ -195,19 +208,6 @@ class mix_Linear(nn.Module):
 
             out = nn.functional.linear(input, self.quantized_weight, self.bias)
 
-            # if self.input.data.dtype == torch.float:
-            #     out = nn.functional.linear(input, self.quantized_weight, self.bias)
-            # else:
-            #     input.data = input.data.half()
-            #     self.quantized_weight.data = self.quantized_weight.data.to(dtype=torch.half)
-            #     self.bias.data = self.bias.data.half()
-            #     out = nn.functional.linear(input, self.quantized_weight, self.bias)
-
-            # elif self.quantized_weight.data.dtype == torch.half:
-            #     input.data = input.data.half()
-            #     self.quantized_weight.data = self.quantized_weight.data.to(dtype=torch.half)
-            #     self.bias.data = self.bias.data.half()
-            #     out = nn.functional.linear(input, self.quantized_weight, self.bias)
         else:
             if not hasattr(self.weight,'org'):
                 self.weight.org=self.weight.data.clone()
@@ -221,6 +221,13 @@ class mix_Linear(nn.Module):
 
 # 8-bit index quantized embedding class
 class qEmbedding(nn.Embedding):
+    """
+        class qEmbedding: provide implementations of 8-bit index quantized embedding
+        Input:
+            input (Tensor)
+        Output:
+            8-bit index quantized and de-quantized embedding (Tensor)
+    """
 
     def __init__(self, *kargs, **kwargs):
         super(qEmbedding, self).__init__(*kargs, **kwargs)

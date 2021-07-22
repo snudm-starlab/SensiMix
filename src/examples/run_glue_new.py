@@ -109,7 +109,8 @@ def quantization(input, bits):
 
 
 def set_seed(args):
-    """ The function that control the random seed 
+    """ 
+        The function that control the random seed 
         Input: args (arguments)
         Output: None
     """
@@ -121,7 +122,8 @@ def set_seed(args):
 
 
 def train(args, train_dataset, model, tokenizer):
-    """ Train the model 
+    """ 
+        Train the model 
         Input: args (arguments), train_dataset (training set), model (pytorch model), tokenizer (BERT tokenizer)    
         Output: global_step, tr_loss / global_step
     """
@@ -362,7 +364,8 @@ def train(args, train_dataset, model, tokenizer):
 
 
 def evaluate(args, model, tokenizer, prefix=""):
-    """ Eval the model 
+    """ 
+        Eval the model 
         Input: args (arguments), model (pytorch model), tokenizer (BERT tokenizer)    
         Output: results (dictionary with accuracy and other result)
     """
@@ -439,7 +442,8 @@ def evaluate(args, model, tokenizer, prefix=""):
 
 
 def load_and_cache_examples(args, task, tokenizer, evaluate=False):
-    """ Function that load the dataset
+    """ 
+        Function that load the dataset
         Input: args (arguments), task (task name), tokenizer
         Output: dataset (can be directly used in the train and eval fuction)
     """
