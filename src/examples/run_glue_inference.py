@@ -73,7 +73,7 @@ ALL_MODELS = sum(
 
 MODEL_CLASSES = {
     "bert": (BertConfig, BertForSequenceClassification, BertTokenizer),
-    "mpqbert": (MPQBertConfig, MPQBertForSequenceClassification_inference, BertTokenizer), #Until now dont need a new MPQBertTokenizer 20210416
+    "mpqbert": (MPQBertConfig, MPQBertForSequenceClassification_inference, BertTokenizer), # Until now dont need a new MPQBertTokenizer 20210416
 }
 
 
@@ -105,8 +105,10 @@ def dequantization(quantized_tensor, bit, fp_min, fp_max):
 def set_seed(args):
     """ 
         The function that control the random seed 
-        Input: args (arguments)
-        Output: None
+        Input:
+            args (arguments)
+        Output:
+            None
     """
     random.seed(args.seed)
     np.random.seed(args.seed)
@@ -118,8 +120,10 @@ def set_seed(args):
 def train(args, train_dataset, model, tokenizer):
     """ 
         Train the model 
-        Input: args (arguments), train_dataset (training set), model (pytorch model), tokenizer (BERT tokenizer)    
-        Output: global_step, tr_loss / global_step
+        Input:
+            args (arguments), train_dataset (training set), model (pytorch model), tokenizer (BERT tokenizer)    
+        Output:
+            global_step, tr_loss / global_step
     """
     if args.local_rank in [-1, 0]:
         tb_writer = SummaryWriter()
@@ -312,8 +316,10 @@ def train(args, train_dataset, model, tokenizer):
 def evaluate(args, model, tokenizer, prefix=""):
     """ 
         Eval the model 
-        Input: args (arguments), model (pytorch model), tokenizer (BERT tokenizer)    
-        Output: results (dictionary with accuracy and other result)
+        Input:
+            args (arguments), model (pytorch model), tokenizer (BERT tokenizer)    
+        Output:
+            results (dictionary with accuracy and other result)
     """
     # Loop to handle MNLI double evaluation (matched, mis-matched)
     eval_task_names = ("mnli", "mnli-mm") if args.task_name == "mnli" else (args.task_name,)
@@ -399,8 +405,10 @@ def evaluate(args, model, tokenizer, prefix=""):
 def load_and_cache_examples(args, task, tokenizer, evaluate=False):
     """ 
         Function that load the dataset
-        Input: args (arguments), task (task name), tokenizer
-        Output: dataset (can be directly used in the train and eval fuction)
+        Input:
+            args (arguments), task (task name), tokenizer
+        Output:
+            dataset (can be directly used in the train and eval fuction)
     """
     if args.local_rank not in [-1, 0] and not evaluate:
         torch.distributed.barrier()  # Make sure only the first process in distributed training process the dataset, and the others will use the cache

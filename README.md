@@ -10,7 +10,7 @@ SensiMix
   │    │     
   │    ├── models
   │    │     ├── configuration_auto.py: configuration class
-  │    │     ├── configuration_mpqbert: configuration of the SensiMix model
+  │    │     ├── configuration_mpqbert.py: configuration of the SensiMix model
   │    │     ├── modeling_mpqbert.py: the SensiMix model
   │    │     ├── modeling_mpqbert_infer.py: the SensiMix inference model 
   │    │     ├── optimization.py: optimization classes for the BERT model
@@ -18,7 +18,7 @@ SensiMix
   │    │      
   │    └── examples
   │          ├── run_glue_new.py: train/validate the models on the GLUE benchmark tasks 
-  |          └── run_glue_inference: load the quantized model and make inference only
+  |          └── run_glue_inference.py: load the quantized model and make inference only
   │    
   │    
   └── scripts: shell scripts for training and testing
@@ -35,7 +35,6 @@ SensiMix
 * Ubuntu 16.04 (LTS)
 * Python 3.7
 * PyTorch 1.7.1 (CUDA 10.1)
-* torchvision
 * transformers 2.5.1
 
 Notice: Please install the PyTorch 1.7.1 with CUDA 10.1 extension
@@ -49,13 +48,13 @@ Notice: Please install the PyTorch 1.7.1 with CUDA 10.1 extension
 #### Install the required packages
     pip install -r requirements.txt
     
-There may has other required packages, use "pip install" to install them.
+If other packages are required, use "pip install" to install them.
 
 #### Install the xnor extension
     cd src/xnor/cuda
     python setup.py install
 
-#### Run the demo.
+#### Run the demo
     bash demo.sh
 
 #### Training & Evaluation

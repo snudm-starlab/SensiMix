@@ -1,6 +1,6 @@
 
 export GLUE_DIR=/home/piaotairen/data/glue_data
-export TASK_NAME=MRPC
+export TASK_NAME=SST-2
 
 CUDA_VISIBLE_DEVICES="0" python ../src/examples/run_glue_inference.py \
   --model_type mpqbert \
@@ -9,8 +9,6 @@ CUDA_VISIBLE_DEVICES="0" python ../src/examples/run_glue_inference.py \
   --config_name /home/piaotairen/mpq/mpq/src/config.json \
   --task_name $TASK_NAME \
   --do_eval \
-  --evaluate_during_training \
-  --logging_steps 1000000 \
   --do_lower_case \
   --data_dir $GLUE_DIR/$TASK_NAME \
   --max_seq_length 128 \
