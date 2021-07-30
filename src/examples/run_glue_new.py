@@ -369,7 +369,7 @@ def train(args, train_dataset, model, tokenizer):
 
 def evaluate(args, model, tokenizer, prefix=""):
     """ 
-        Eval the model 
+        Eval the model
         Input:
             args (arguments), model (pytorch model), tokenizer (BERT tokenizer)    
         Output:

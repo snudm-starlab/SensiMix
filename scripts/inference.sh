@@ -6,7 +6,7 @@ CUDA_VISIBLE_DEVICES="0" python ../src/examples/run_glue_inference.py \
   --model_type mpqbert \
   --model_name_or_path /home/piaotairen/experiments/test_output/$TASK_NAME/quantized \
   --tokenizer_name bert-base-uncased \
-  --config_name /home/piaotairen/mpq/mpq/src/config.json \
+  --config_name /home/piaotairen/SensiMix/src/config.json \
   --task_name $TASK_NAME \
   --do_eval \
   --do_lower_case \

@@ -38,8 +38,6 @@ from src.models import (
     get_linear_schedule_with_warmup,
 )
 
-from src.models.quantized_modules import Binarize
-
 from transformers import (
     BertConfig,
     BertForSequenceClassification,
