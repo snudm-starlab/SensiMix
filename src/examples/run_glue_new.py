@@ -228,7 +228,7 @@ def train(args, train_dataset, model, tokenizer):
         for step, batch in enumerate(epoch_iterator):
             # Inverse Layer-wise Fine-tuning
             if epoch == 0:
-                PT_ = 1 # input: 1-bit, weight: 32-bit
+                PT_ = 0 # input: 1-bit, weight: 32-bit
                 if step == 0:
                     logger.info('='*75)
                     logger.info("First epoch = Prioritized Training for the 4, 5, 6 layer")
