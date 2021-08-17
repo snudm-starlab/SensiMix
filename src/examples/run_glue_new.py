@@ -225,34 +225,41 @@ def train(args, train_dataset, model, tokenizer):
     set_seed(args)  # Added here for reproductibility
     for epoch in train_iterator:
         epoch_iterator = tqdm(train_dataloader, desc="Iteration", disable=args.local_rank not in [-1, 0])
+        
+        # Inverse Layer-wise Fine-tuning
+        if epoch < args.num_layers - args.num_8bit_layers:
+            PT_ = epoch
+            logger.info('='*75)
+            logger.info("Prioritize Training")
+            logger.info('='*75)
+
+            # if epoch == 0:
+            #     PT_ = 0 # input: 1-bit, weight: 32-bit
+            #     if step == 0:
+            #         logger.info('='*75)
+            #         logger.info("First epoch = Prioritized Training for the 4, 5, 6 layer")
+            #         logger.info('='*75)
+            # elif epoch == 1:
+            #     PT_ = 1 # input: 1-bit, weight: 1-bit
+            #     if step == 0:
+            #         logger.info('='*75)
+            #         logger.info("Second epoch = 6 layer 1-bit quantized, while PT for 4,5")
+            #         logger.info('='*75)
+            # elif epoch == 2:
+            #     PT_ = 2
+            #     if step == 0:
+            #         logger.info('='*75)
+            #         logger.info("Third epoch => ILF: 5, 6 layer 1-bit quantized, while PT for 4")
+            #         logger.info('='*75)                                                       
+        else:
+            PT_ = 3
+            # PT = epoch + 1
+            # if step == 0:
+            logger.info('='*75)
+            logger.info("Training the final SensiMix model")
+            logger.info('='*75)
+
         for step, batch in enumerate(epoch_iterator):
-            # Inverse Layer-wise Fine-tuning
-            if epoch == 0:
-                PT_ = 0 # input: 1-bit, weight: 32-bit
-                if step == 0:
-                    logger.info('='*75)
-                    logger.info("First epoch = Prioritized Training for the 4, 5, 6 layer")
-                    logger.info('='*75)
-            elif epoch == 1:
-                PT_ = 1 # input: 1-bit, weight: 1-bit
-                if step == 0:
-                    logger.info('='*75)
-                    logger.info("Second epoch = 6 layer 1-bit quantized, while PT for 4,5")
-                    logger.info('='*75)
-            elif epoch == 2:
-                PT_ = 2
-                if step == 0:
-                    logger.info('='*75)
-                    logger.info("Third epoch => ILF: 5, 6 layer 1-bit quantized, while PT for 4")
-                    logger.info('='*75)                                                       
-            else:
-                PT_ = 3
-                if step == 0:
-                    logger.info('='*75)
-                    logger.info("Fifth and more epoch => ILF: 4,5,6 layer 1-bit quantized")
-                    logger.info('='*75)
-
-
             # Skip past any already trained steps if resuming training
             if steps_trained_in_current_epoch > 0:
                 steps_trained_in_current_epoch -= 1
@@ -290,11 +297,16 @@ def train(args, train_dataset, model, tokenizer):
                 for p in list(model.parameters()):
                     if hasattr(p, 'org'):
                         p.data.copy_(p.org)
-                #print('real:', model.bert.encoder.layer[4].intermediate.dense.weight.grad) 
-                #print('bi:', model.bert.encoder.layer[4].intermediate.dense.quantized_weight.grad)
+                # print('real:', model.bert.encoder.layer[4].intermediate.dense.weight.grad) 
+                # print('bi:', model.bert.encoder.layer[4].intermediate.dense.quantized_weight.grad)
 
                 # E.g., quantized_weight in the first epoch has no gradient
-                for i in range(6-PT_, 6):
+                # Only the truncated gradient need this process
+                
+
+                for i in range(args.num_layers - PT_, args.num_layers):
+                    if PT_ == 3:
+                        break
                     # print(model.bert.encoder.layer[i].intermediate.dense.weight.grad, model.bert.encoder.layer[i].intermediate.dense.quantized_weight.grad)
                     intermediate_mask = torch.where(model.bert.encoder.layer[i].intermediate.dense.weight >= 1, torch.zeros_like(model.bert.encoder.layer[i].intermediate.dense.weight), model.bert.encoder.layer[i].intermediate.dense.weight)
                     intermediate_mask = torch.where(model.bert.encoder.layer[i].intermediate.dense.weight <= -1, torch.zeros_like(model.bert.encoder.layer[i].intermediate.dense.weight), torch.ones_like(model.bert.encoder.layer[i].intermediate.dense.weight))
@@ -627,7 +639,7 @@ def main():
     )
     parser.add_argument("--seed", type=int, default=random.randint(32,65535), help="random seed for initialization")
 
-    parser.add_argument("--save_quantized_model", action="store_true", help="Developing version use low-bit inference.py") #  
+    parser.add_argument("--save_quantized_model", action="store_true", help="Developing version use low-bit inference.py")
     parser.add_argument(
         "--quantized_model_dir",
         default=None,
@@ -635,6 +647,9 @@ def main():
         required=True,
         help="The output directory where the quantized model will be written.",
     )
+    parser.add_argument("--num_layers", type=int, default=3, help="Number of layers")
+    parser.add_argument("--num_8bit_layers", type=int, default=2, help="Number of layers")
+
 
     parser.add_argument(
         "--fp16",
@@ -724,6 +739,11 @@ def main():
         finetuning_task=args.task_name,
         cache_dir=args.cache_dir if args.cache_dir else None,
     )
+
+    # print(config.num_8bit_layers)
+    config.num_hidden_layers = args.num_layers # Pass the arguments to the configuration
+    config.num_8bit_layers = args.num_8bit_layers # Pass the arguments to the configuration
+
     tokenizer = tokenizer_class.from_pretrained(
         args.tokenizer_name if args.tokenizer_name else args.model_name_or_path,
         do_lower_case=args.do_lower_case,

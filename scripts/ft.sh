@@ -14,6 +14,7 @@ CUDA_VISIBLE_DEVICES="0" python ../src/examples/run_glue_new.py \
   --max_seq_length 128 \
   --per_gpu_eval_batch_size 128 \
   --per_gpu_train_batch_size 16 \
+  --save_steps 9999999 \
   --learning_rate 2.5e-5 \
   --num_train_epoch 6 \
   --output_dir /home/piaotairen/experiments/test_output/$TASK_NAME/ \

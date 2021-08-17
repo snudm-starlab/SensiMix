@@ -45,11 +45,11 @@ class MPQBertEmbeddings(nn.Module):
     """
         Construct the embeddings from word, position and token_type embeddings.
         Input:
-            input_ids (the input words ids), 
-            token_type_ids (the input words type ids), 
+            input_ids (the input words ids),
+            token_type_ids (the input words type ids),
             position_ids (the input words position ids)
         Output:
-            Word Embedidng (batch_size, max_seq_length, hidden_size)  
+            Word Embedidng (batch_size, max_seq_length, hidden_size)
     """
 
     def __init__(self, config):
@@ -611,7 +611,7 @@ class MPQBertEncoder(nn.Module):
                 all_hidden_states = all_hidden_states + (hidden_states,)
 ######################################################################################################################################
             if PT == 0:    #### first two epochs = 8-bit and 32-bit
-                if i >= self.num_layers - 3:
+                if i >= self.num_8bit_layers:
                     layer_outputs = layer_module(
                     hidden_states, attention_mask, head_mask[i], encoder_hidden_states, encoder_attention_mask, bit_1_quantize = False,
                     layer_number = i, bit_32_quantize = True
@@ -639,7 +639,7 @@ class MPQBertEncoder(nn.Module):
 
                     if self.output_attentions:
                         all_attentions = all_attentions + (layer_outputs[1],)
-                elif i >= self.num_layers - 3:
+                elif i >= self.num_8bit_layers:
                     layer_outputs = layer_module(
                     hidden_states, attention_mask, head_mask[i], encoder_hidden_states, encoder_attention_mask, bit_1_quantize = False,
                     layer_number = i, bit_32_quantize = True
@@ -666,7 +666,7 @@ class MPQBertEncoder(nn.Module):
 
                     if self.output_attentions:
                         all_attentions = all_attentions + (layer_outputs[1],)
-                elif (i >= self.num_layers - 3):
+                elif (i >= self.num_8bit_layers):
                     layer_outputs = layer_module(
                     hidden_states, attention_mask, head_mask[i], encoder_hidden_states, encoder_attention_mask, bit_1_quantize = False,
                     layer_number = i, bit_32_quantize = True
@@ -683,7 +683,7 @@ class MPQBertEncoder(nn.Module):
                     if self.output_attentions:
                         all_attentions = all_attentions + (layer_outputs[1],)
             elif PT == 3:    #### five or more epochw 1-bit for 4, 5, and 6 layers.
-                if i >= self.num_layers - 3:
+                if i >= self.num_8bit_layers:
                     layer_outputs = layer_module(
                     hidden_states, attention_mask, head_mask[i], encoder_hidden_states, encoder_attention_mask, bit_1_quantize = True,
                     layer_number = i, bit_32_quantize = False
@@ -1335,6 +1335,10 @@ class MPQBertForSequenceClassification(MPQBertPreTrainedModel):
 
         self.init_weights()
 
+        # For combine the code
+        self.num_hidden_layers = config.num_hidden_layers
+        self.num_8bit_layers = config.num_8bit_layers
+
 
     @add_start_docstrings_to_callable(MPQBERT_INPUTS_DOCSTRING)
     def forward(
@@ -1376,23 +1380,34 @@ class MPQBertForSequenceClassification(MPQBertPreTrainedModel):
                 loss_fct2 = MSELoss()
                 loss = loss_fct(logits.view(-1, self.num_labels), labels.view(-1))
 
-                loss2 = loss_fct2(self.bert.encoder.layer[3].intermediate.dense.weight.abs(),
-                    torch.ones_like(self.bert.encoder.layer[3].intermediate.dense.weight))
-                loss3 = loss_fct2(self.bert.encoder.layer[4].intermediate.dense.weight.abs(),
-                    torch.ones_like(self.bert.encoder.layer[4].intermediate.dense.weight))
-                loss4 = loss_fct2(self.bert.encoder.layer[5].intermediate.dense.weight.abs(),
-                    torch.ones_like(self.bert.encoder.layer[5].intermediate.dense.weight))
-                loss5 = loss_fct2(self.bert.encoder.layer[3].output.dense.weight.abs(),
-                    torch.ones_like(self.bert.encoder.layer[3].output.dense.weight))
-                loss6 = loss_fct2(self.bert.encoder.layer[4].output.dense.weight.abs(),
-                    torch.ones_like(self.bert.encoder.layer[4].output.dense.weight))
-                loss7 = loss_fct2(self.bert.encoder.layer[5].output.dense.weight.abs(),
-                    torch.ones_like(self.bert.encoder.layer[5].output.dense.weight))
-                loss_n = loss3 + loss4 + loss6 + loss7 + loss2 + loss5
+                # print("daozhele", self.num_hidden_layers, self.num_8bit_layers)
+
+                for i in range(self.num_8bit_layers, self.num_hidden_layers):
+                    # print(i)
+                    temp_loss_1 = loss_fct2(self.bert.encoder.layer[i].intermediate.dense.weight.abs(),
+                    torch.ones_like(self.bert.encoder.layer[i].intermediate.dense.weight))
+                    temp_loss_2 = loss_fct2(self.bert.encoder.layer[i].output.dense.weight.abs(),
+                    torch.ones_like(self.bert.encoder.layer[i].output.dense.weight))
+                    loss = loss + temp_loss_1 + temp_loss_2
+
+
+                # loss2 = loss_fct2(self.bert.encoder.layer[3].intermediate.dense.weight.abs(),
+                #     torch.ones_like(self.bert.encoder.layer[3].intermediate.dense.weight))
+                # loss3 = loss_fct2(self.bert.encoder.layer[4].intermediate.dense.weight.abs(),
+                #     torch.ones_like(self.bert.encoder.layer[4].intermediate.dense.weight))
+                # loss4 = loss_fct2(self.bert.encoder.layer[5].intermediate.dense.weight.abs(),
+                #     torch.ones_like(self.bert.encoder.layer[5].intermediate.dense.weight))
+                # loss5 = loss_fct2(self.bert.encoder.layer[3].output.dense.weight.abs(),
+                #     torch.ones_like(self.bert.encoder.layer[3].output.dense.weight))
+                # loss6 = loss_fct2(self.bert.encoder.layer[4].output.dense.weight.abs(),
+                #     torch.ones_like(self.bert.encoder.layer[4].output.dense.weight))
+                # loss7 = loss_fct2(self.bert.encoder.layer[5].output.dense.weight.abs(),
+                #     torch.ones_like(self.bert.encoder.layer[5].output.dense.weight))
+                # loss_n = loss3 + loss4 + loss6 + loss7 + loss2 + loss5
 
                 # print("loss: ", loss, "ABWR loss: ", loss_n)
 
-                loss = loss + loss_n
+                # loss = loss + loss_n 
 
             outputs = (loss,) + outputs
 
