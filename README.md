@@ -125,11 +125,11 @@ If other packages are required, use "pip install" to install them.
         --quantized_model_dir ./experiments/$TASK_NAME/quantized \
         --overwrite_output_dir \
     ```
-
+    
 ## Contact us
-- Tairen Piao (piaotairen@snu.ac.kr)
-- Ikhyun Cho (ikhyuncho@snu.ac.kr)
-- U Kang (ukang@snu.ac.kr)
+- Tairen Piao ( piaotairen@snu.ac.kr)
+- Ikhyun Cho ( ikhyuncho@snu.ac.kr)
+- U Kang ( ukang@snu.ac.kr)
 - Data Mining Lab. at Seoul National University.
 
 *This software may be used only for research evaluation purposes.*
