@@ -185,7 +185,7 @@ def train(args, train_dataset, model, tokenizer):
             model, device_ids=[args.local_rank], output_device=args.local_rank, find_unused_parameters=True,
         )
 
-    # Train!
+    # Train
     logger.info("***** Running training *****")
     logger.info("  Num examples = %d", len(train_dataset))
     logger.info("  Num Epochs = %d", args.num_train_epochs)
@@ -407,7 +407,7 @@ def evaluate(args, model, tokenizer, prefix=""):
         if args.n_gpu > 1 and not isinstance(model, torch.nn.DataParallel):
             model = torch.nn.DataParallel(model)
 
-        # Eval!
+        # Eval
         logger.info("***** Running evaluation {} *****".format(prefix))
         logger.info("  Num examples = %d", len(eval_dataset))
         logger.info("  Batch size = %d", args.eval_batch_size)
