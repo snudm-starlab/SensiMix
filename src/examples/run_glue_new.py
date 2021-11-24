@@ -625,7 +625,7 @@ def main():
     parser.add_argument(
         "--fp16",
         action="store_true",
-        help="Whether to use 16-bit (mixed) precision (through NVIDIA apex) instead of 32-bit",
+        help="Whether to use 16-bit (mixed) precision (through NVIDIA apex) instead of 32-bit or not",
     )
     parser.add_argument(
         "--fp16_opt_level",
