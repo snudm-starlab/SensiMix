@@ -67,7 +67,7 @@ class MPQBertConfig(PretrainedConfig):
             layer_norm_eps (:obj:`float`, optional, defaults to 1e-12):
                 The epsilon used by the layer normalization layers.
 
-        Example::
+        Examples:
 
             from transformers import BertModel, BertConfig
 
