@@ -59,27 +59,6 @@ class BinarizeLinear_inference(nn.Module):
         return out
 
 
-# class BinarizeLinear(nn.Linear):
-
-#     def __init__(self, *kargs, **kwargs):
-#         super(BinarizeLinear, self).__init__(*kargs, **kwargs)
-
-#     def forward(self, input):
-
-#         input.data = Binarize(input.data)
-#         if not hasattr(self.weight,'org'):
-#             self.weight.org=self.weight.data.clone()
-#            # self.weight.org.requires_grad = True
-
-#         if self.weight.data.dtype == torch.float:
-#             self.weight.data = Binarize(self.weight.org)
-#             # out = xnor_linear(input, self.weight, self.bias)
-#             out = nn.functional.linear(input, self.weight, self.bias)
-
-#         return out
-
-
-
 def quantization(input, bits):
     """
         Combination of quantization and de-quantization function
