@@ -156,9 +156,7 @@ class MPQBertSelfAttention(nn.Module):
         # Take the dot product between "query" and "key" to get the raw attention scores.
         attention_scores = torch.matmul(query_layer, key_layer.transpose(-1, -2))
         attention_scores = attention_scores / math.sqrt(self.attention_head_size)
-        # print('score',attention_scores.shape)
 
-        # print(attention_mask.shape)
         if attention_mask is not None:
             # Apply the attention mask is (precomputed for all layers in BertModel forward() function)
             attention_scores = attention_scores + attention_mask
@@ -228,7 +226,6 @@ class MPQBertSelfAttentionp(nn.Module):
         self.output_attentions = config.output_attentions
 
         self.num_attention_heads = config.num_attention_heads
-        # self.attention_head_size = int(config.hidden_size / config.num_attention_heads)
         self.attention_head_size = config.attention_head_size
         self.all_head_size = self.num_attention_heads * self.attention_head_size
 
@@ -288,12 +285,7 @@ class MPQBertSelfAttentionp(nn.Module):
             attention_probs = attention_probs * head_mask
 
         attention_probs = attention_probs.half() #sensimix
-
-
-        # attention_probs = torch.randn(value_layer.size(0),value_layer.size(1),value_layer.size(2),value_layer.size(3)).to(device = 'cuda:0')
-
         context_layer = torch.matmul(attention_probs, value_layer)
-
         context_layer = context_layer.permute(0, 2, 1, 3).contiguous()
         new_context_layer_shape = context_layer.size()[:-2] + (self.all_head_size,)
         context_layer = context_layer.view(*new_context_layer_shape)
@@ -448,7 +440,6 @@ class MPQBertIntermediatep(nn.Module):
     def __init__(self, config):
         super().__init__()
         self.dense = BinarizeLinear_inference(int(config.hidden_size/32), config.intermediate_size)
-        # self.dense = BinarizeLinear_inference(config.hidden_size, config.intermediate_size)
 
         if isinstance(config.hidden_act, str):
             self.intermediate_act_fn = ACT2FN[config.hidden_act]
@@ -464,12 +455,7 @@ class MPQBertIntermediatep(nn.Module):
 
 
         hidden_states = self.dense(hidden_states) #for inference
-        # hidden_states = self.dense(hidden_states, bit_1_quantize, layer_number, bit_32_quantize)
-
         hidden_states = hidden_states.reshape(output_shape1,output_shape2,3072) #sensimix
-
-        # hidden_states = self.intermediate_act_fn(hidden_states)
-        # hidden_states = torch.nn.functional.hardtanh(hidden_states) #sensimix
 
         return hidden_states
 
@@ -505,23 +491,17 @@ class MPQBertOutputp(nn.Module):
     def __init__(self, config):
         super().__init__()
         self.dense = BinarizeLinear_inference(int(config.intermediate_size/32), config.hidden_size)
-        # self.dense = BinarizeLinear_inference(3072, config.hidden_size)
         self.LayerNorm = MPQBertLayerNorm(config.hidden_size, eps=config.layer_norm_eps)
         self.dropout = nn.Dropout(config.hidden_dropout_prob)
 
-    # def forward(self, hidden_states, input_tensor, bit_1_quantize = False, layer_number = 0, bit_32_quantize = False):
     def forward(self, hidden_states, input_tensor):
         input_shape1 = hidden_states.size(0) * hidden_states.size(1)
         input_shape2 = hidden_states.size(2)
         output_shape1 = hidden_states.size(0)
         output_shape2 = hidden_states.size(1)
         hidden_states = hidden_states.reshape(input_shape1,input_shape2) #sensimix
-
-        # hidden_states = self.dense(hidden_states, bit_1_quantize, layer_number, bit_32_quantize)
         hidden_states = self.dense(hidden_states)
-
         hidden_states = hidden_states.reshape(output_shape1,output_shape2,768) #sensimix
-
         hidden_states = self.dropout(hidden_states)
         hidden_states = self.LayerNorm(hidden_states + input_tensor)
         return hidden_states
@@ -607,10 +587,6 @@ class MPQBertLayer_MP_encoder(nn.Module):
 
         intermediate_output = self.intermediate(attention_output)
         layer_output = self.output(intermediate_output, attention_output)
-
-        # intermediate_output = self.intermediate(attention_output, bit_1_quantize, layer_number, bit_32_quantize)
-        # layer_output = self.output(intermediate_output, attention_output, bit_1_quantize, layer_number, bit_32_quantize)
-
         outputs = (layer_output,) + outputs
 
         return outputs
@@ -757,7 +733,6 @@ class MPQBertPreTrainedModel(PreTrainedModel):
 
     config_class = MPQBertConfig
     pretrained_model_archive_map = MPQBERT_PRETRAINED_MODEL_ARCHIVE_MAP
-    # load_tf_weights = load_tf_weights_in_mpqbert
     base_model_prefix = "mpqbert"
 
     def _init_weights(self, module):
@@ -765,7 +740,6 @@ class MPQBertPreTrainedModel(PreTrainedModel):
         if isinstance(module, (nn.Linear, nn.Embedding)):
             # Slightly different from the TF version which uses truncated_normal for initialization
             # cf https://github.com/pytorch/pytorch/pull/5617
-            # module.weight.data.normal_(mean=0.0, std=self.config.initializer_range)
             module.weight.data.fill_(1.0) #sensimix
         elif isinstance(module, MPQBertLayerNorm):
             module.bias.data.zero_()
