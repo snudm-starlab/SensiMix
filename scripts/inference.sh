@@ -1,3 +1,4 @@
+# make fast inference
 
 export GLUE_DIR=/home/piaotairen/data/glue_data
 export TASK_NAME=SST-2
