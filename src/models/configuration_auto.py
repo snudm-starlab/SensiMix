@@ -87,7 +87,6 @@ class AutoConfig:
             - contains `openai-gpt`: :class:`~transformers.OpenAIGPTConfig` (OpenAI GPT model)
             - contains `gpt2`: :class:`~transformers.GPT2Config` (OpenAI GPT-2 model)
 
-
         Args:
             pretrained_model_name_or_path (:obj:`string`):
                 Is either: \
@@ -117,7 +116,6 @@ class AutoConfig:
             kwargs (:obj:`Dict[str, any]`, optional, defaults to `{}`): key/value pairs with which to update the configuration object after loading.
                 - The values in kwargs of any keys which are configuration attributes will be used to override the loaded values.
                 - Behavior concerning key/value pairs whose keys are *not* configuration attributes is controlled by the `return_unused_kwargs` keyword parameter.
-
 
         Examples:
 
