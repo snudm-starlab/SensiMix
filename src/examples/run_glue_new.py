@@ -433,8 +433,6 @@ def evaluate(args, model, tokenizer, prefix=""):
             logger.info("***** Eval results {} *****".format(prefix))
             for key in sorted(result.keys()):
                 logger.info("  %s = %s", key, str(result[key]))
-                # writer.write("%s = %s, ----------------------------- AVL Loss: %s \n" % (key, str(result[key]), str(AVL_Loss)))
-                #writer.write("%s = %s,                avl_loss = %s" %(key, str(result[key]), loss?)
                 writer.write("%s = %s\n" % (key, str(result[key])))
     return results
 
