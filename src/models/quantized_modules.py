@@ -69,9 +69,7 @@ class BinarizeLinear_inference(nn.Module):
     def forward(self, input):
         # Binarize the input while conver FP32 to FP16
         input.data = Binarize(input.data)
-        # self.quantized_weight.data = Binarize(self.quantized_weight.data)
         out = xnor_linear_inference(input, self.quantized_weight, self.bias)
-        # out = nn.functional.linear(input, self.quantized_weight, self.bias)
         return out
 
 
@@ -244,7 +242,6 @@ class qEmbedding(nn.Embedding):
 
         if not hasattr(self.weight,'org'):
             self.weight.org=self.weight.data.clone()
-        # self.weight.data = torch.zeros_like(self.weight.data)
         self.weight.data=quantization(self.weight.data,8)
 
         return torch.nn.functional.embedding(
