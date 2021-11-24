@@ -280,10 +280,6 @@ def train(args, train_dataset, model, tokenizer):
                     if hasattr(p, 'org'):
                         p.data.copy_(p.org)
 
-                # E.g., quantized_weight in the first epoch has no gradient
-                # Only the truncated gradient need this process
-                
-
                 for i in range(args.num_layers - PT_, args.num_layers):
                     if PT_ == 3:
                         break
