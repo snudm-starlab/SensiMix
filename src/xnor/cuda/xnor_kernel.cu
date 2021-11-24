@@ -124,9 +124,6 @@ __global__ void xnor_gemm_kernel(uint32_t* A, uint32_t* B, float* C, int m, int 
 
 }
 
-
-
-
 } //namespace
 
 
@@ -182,7 +179,6 @@ torch::Tensor test_gemm_cuda(torch::Tensor input_a, torch::Tensor input_b)
     const int bin_a_size = m * l;
     torch::Tensor bin_input_a = torch::zeros({m,l},torch::TensorOptions().dtype(torch::kFloat32).device(torch::kCUDA));
 
-
     float* a1 = (float*)input_a.data<float>();
     uint32_t* b1 = (uint32_t*)bin_input_a.data<float>();
 
@@ -201,5 +197,4 @@ torch::Tensor test_gemm_cuda(torch::Tensor input_a, torch::Tensor input_b)
     xnor_gemm_kernel <<<gridDim, blockDim>>> (b1, b2, c2, m, l, k);
 
     return output;
-
 }
