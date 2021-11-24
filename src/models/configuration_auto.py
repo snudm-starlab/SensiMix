@@ -119,7 +119,7 @@ class AutoConfig:
                 - Behavior concerning key/value pairs whose keys are *not* configuration attributes is controlled by the `return_unused_kwargs` keyword parameter.
 
 
-        Examples::
+        Examples:
 
             config = AutoConfig.from_pretrained('bert-base-uncased')  # Download configuration from S3 and cache.
             config = AutoConfig.from_pretrained('./test/bert_saved_model/')  # E.g. config (or model) was saved using `save_pretrained('./test/saved_model/')`
