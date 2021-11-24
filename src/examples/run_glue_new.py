@@ -795,7 +795,7 @@ def main():
 
 
 
-    # Quantize the original model and save the quantized model   2021/04/25
+    # Quantize the original model and save the quantized model
     if args.save_quantized_model:
         state_dict_quant_mpq = torch.load(args.output_dir + '/pytorch_model.bin') # Load the original model
         for i, j in list(state_dict_quant_mpq.items()):
@@ -820,7 +820,6 @@ def main():
                 elif ('.intermediate.dense.quantized_weight' in i or '.output.dense.quantized_weight' in i and 'attention' not in i) and ('encoder' in i and str(q) in i):
                     b = Binarize(j.t())
                     state_dict_quant_mpq[i] = xnor_cuda.encode_cols(b)
-                    # state_dict_quant_mpq[i] = state_dict_quant_mpq[i].t() # Do not do this!!!!!!
 
         # If the quantized model dir not exists, create the directory
         if not os.path.exists(args.quantized_model_dir):
