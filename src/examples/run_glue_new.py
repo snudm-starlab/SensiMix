@@ -279,8 +279,6 @@ def train(args, train_dataset, model, tokenizer):
                 for p in list(model.parameters()):
                     if hasattr(p, 'org'):
                         p.data.copy_(p.org)
-                # print('real:', model.bert.encoder.layer[4].intermediate.dense.weight.grad) 
-                # print('bi:', model.bert.encoder.layer[4].intermediate.dense.quantized_weight.grad)
 
                 # E.g., quantized_weight in the first epoch has no gradient
                 # Only the truncated gradient need this process
