@@ -297,8 +297,6 @@ def train(args, train_dataset, model, tokenizer):
                     if hasattr(p, 'org'):
                         p.org.copy_(p.data)
 
-                # print('loss: {:.4f}'.format(loss.item()))
-                # optimizer.step()
                 scheduler.step()  # Update learning rate schedule
                 model.zero_grad()
                 global_step += 1
