@@ -1123,7 +1123,7 @@ class MPQBertForPreTraining(MPQBertPreTrainedModel):
             total_loss = masked_lm_loss + next_sentence_loss
             outputs = (total_loss,) + outputs
 
-        return outputs  # (loss), prediction_scores, seq_relationship_score, (hidden_states), (attentions)
+        return outputs 
 
 
 @add_start_docstrings("""MPQBert Model with a `language modeling` head on top. """, MPQBERT_START_DOCSTRING)
@@ -1233,10 +1233,7 @@ class MPQBertForMaskedLM(MPQBertPreTrainedModel):
             ltr_lm_loss = loss_fct(prediction_scores.view(-1, self.config.vocab_size), lm_labels.view(-1))
             outputs = (ltr_lm_loss,) + outputs
 
-        return outputs  # (masked_lm_loss), (ltr_lm_loss), prediction_scores, (hidden_states), (attentions)
-
-
-
+        return outputs
 @add_start_docstrings(
     """MPQBert Model transformer with a sequence classification/regression head on top (a linear layer on top of
     the pooled output) e.g. for GLUE tasks. """,
