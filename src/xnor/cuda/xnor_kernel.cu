@@ -100,7 +100,7 @@ __global__ void xnor_gemm_kernel(uint32_t* A, uint32_t* B, float* C, int m, int 
     // Multiply each pair of sub-matrices together
     // and accumulate the results
 
-    for (int i = 0; i < (n-1) / BLOCK_SIZE + 1; ++i) //this is the best code that I coded until now piao
+    for (int i = 0; i < (n-1) / BLOCK_SIZE + 1; ++i) 
     {
         uint32_t* Asub = &A[BLOCK_SIZE * blockRow * n + BLOCK_SIZE * i];
         uint32_t* Bsub = &B[BLOCK_SIZE * k * i + BLOCK_SIZE * blockCol];
