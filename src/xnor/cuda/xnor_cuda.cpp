@@ -31,9 +31,6 @@ torch::Tensor test_gemm(torch::Tensor input_a, torch::Tensor intput_b) {
 }
 
 
-
-
-
 PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
     m.def("encode_rows",&encode_rows,"encode_rows");
     m.def("encode_cols",&encode_cols,"encode_cols");
