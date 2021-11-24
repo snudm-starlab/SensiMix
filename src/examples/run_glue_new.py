@@ -443,7 +443,7 @@ def load_and_cache_examples(args, task, tokenizer, evaluate=False):
     """ 
         Function that load the dataset
         Input:
-            args (arguments), task (task name), tokenizer
+            args (arguments), task (name of task), tokenizer
         Output:
             dataset (can be directly used in the train and eval fuction)
     """
