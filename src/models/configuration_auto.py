@@ -44,7 +44,7 @@ CONFIG_MAPPING = OrderedDict(
 
 
 class AutoConfig:
-    r"""
+    """
         :class:`~transformers.AutoConfig` is a generic configuration class
         that will be instantiated as one of the configuration classes of the library
         when created with the :func:`~transformers.AutoConfig.from_pretrained` class method.
@@ -73,7 +73,7 @@ class AutoConfig:
 
     @classmethod
     def from_pretrained(cls, pretrained_model_name_or_path, **kwargs):
-        r""" Instantiates one of the configuration classes of the library
+        """ Instantiates one of the configuration classes of the library
         from a pre-trained model configuration.
 
         The configuration class to instantiate is selected
