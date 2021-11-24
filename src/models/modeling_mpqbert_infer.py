@@ -294,8 +294,6 @@ class MPQBertSelfAttentionp(nn.Module):
         return outputs
 
 
-
-
 class MPQBertSelfOutputp(nn.Module):
     """
         MQPBertSelfOutputp: Implementation of the 8-bit index quantized W_o
@@ -316,7 +314,6 @@ class MPQBertSelfOutputp(nn.Module):
         input_tensor = input_tensor.half()
         hidden_states = self.LayerNorm(hidden_states + input_tensor)
         return hidden_states
-
 
 
 class MPQBertAttention(nn.Module):
@@ -458,9 +455,6 @@ class MPQBertIntermediatep(nn.Module):
         hidden_states = hidden_states.reshape(output_shape1,output_shape2,3072) #sensimix
 
         return hidden_states
-
-
-
 
 
 class MPQBertOutput(nn.Module):
@@ -1234,11 +1228,13 @@ class MPQBertForMaskedLM(MPQBertPreTrainedModel):
             outputs = (ltr_lm_loss,) + outputs
 
         return outputs
+    
 @add_start_docstrings(
     """MPQBert Model transformer with a sequence classification/regression head on top (a linear layer on top of
     the pooled output) e.g. for GLUE tasks. """,
     MPQBERT_START_DOCSTRING,
 )
+
 class MPQBertForSequenceClassification_inference(MPQBertPreTrainedModel):
     def __init__(self, config):
         super().__init__(config)
