@@ -159,8 +159,6 @@ class mix_Linear(nn.Module):
         # bit_1_quantize: for 1-bit quantization.
         elif bit_1_quantize == True:
             input.data = Binarize(input.data)
-            # if not hasattr(self.weight, 'org'):
-            #     self.weight.org = self.weight.data.clone()
             with torch.no_grad():
                 if input.data.dtype == torch.float:
                     self.quantized_weight.data = Binarize(self.weight)
