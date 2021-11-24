@@ -238,8 +238,6 @@ def train(args, train_dataset, model, tokenizer):
                                                    
         else:
             PT_ = 3
-            # PT = epoch + 1
-            # if step == 0:
             logger.info('='*75)
             logger.info("Training the final SensiMix model")
             logger.info('='*75)
@@ -257,7 +255,6 @@ def train(args, train_dataset, model, tokenizer):
                 inputs["token_type_ids"] = (
                     batch[2] if args.model_type in ["bert", "xlnet", "albert"] else None
                 )  # XLM, DistilBERT, RoBERTa, and XLM-RoBERTa don't use segment_ids
-            # outputs, avl_loss = model(**inputs)
             outputs = model(**inputs) # 
             loss = outputs[0]  # model outputs are always tuple in transformers (see doc)
 
