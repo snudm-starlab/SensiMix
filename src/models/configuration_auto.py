@@ -10,7 +10,10 @@ This software may be used only for research evaluation purposes.
 For other purposes (e.g., commercial), please contact the authors.
 """
 
-""" Auto Config class. """
+"""
+Auto Config class. 
+"""
+
 import logging
 from collections import OrderedDict
 
