@@ -25,20 +25,6 @@ def Binarize(tensor):
     binarized = torch.where(tensor>0, torch.ones_like(tensor,dtype=torch.float32, device='cuda'), torch.full((tensor.shape),-1, dtype=torch.float32, device='cuda'))
     return binarized
 
-# def xnor_linear(input, weight,bias=True):
-
-#     weight_col = Binarize(weight.t())
-#     bin_weight = xnor_cuda.encode_cols(weight_col)
- 
-#     output1 = input.matmul(weight.t())
-#     output2 = xnor_cuda.test_gemm(input,bin_weight)
-#     print(torch.equal(output1, output2))
-
-#     if bias is not None:
-#         output1 += bias
-#     ret = output1
-
-#     return ret
 
 def xnor_linear_inference(input, weight, bias=True):
     output = xnor_cuda.test_gemm(input, weight)
