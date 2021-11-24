@@ -283,7 +283,6 @@ def train(args, train_dataset, model, tokenizer):
                 for i in range(args.num_layers - PT_, args.num_layers):
                     if PT_ == 3:
                         break
-                    # print(model.bert.encoder.layer[i].intermediate.dense.weight.grad, model.bert.encoder.layer[i].intermediate.dense.quantized_weight.grad)
                     intermediate_mask = torch.where(model.bert.encoder.layer[i].intermediate.dense.weight >= 1, torch.zeros_like(model.bert.encoder.layer[i].intermediate.dense.weight), model.bert.encoder.layer[i].intermediate.dense.weight)
                     intermediate_mask = torch.where(model.bert.encoder.layer[i].intermediate.dense.weight <= -1, torch.zeros_like(model.bert.encoder.layer[i].intermediate.dense.weight), torch.ones_like(model.bert.encoder.layer[i].intermediate.dense.weight))
                     output_mask = torch.where(model.bert.encoder.layer[i].output.dense.weight >= 1, torch.zeros_like(model.bert.encoder.layer[i].output.dense.weight), model.bert.encoder.layer[i].output.dense.weight)
