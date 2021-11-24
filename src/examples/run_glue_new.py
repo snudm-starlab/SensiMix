@@ -235,12 +235,7 @@ def train(args, train_dataset, model, tokenizer):
             logger.info('='*75)
             logger.info("Prioritize Training")
             logger.info('='*75)
-            # elif epoch == 2:
-            #     PT_ = 2
-            #     if step == 0:
-            #         logger.info('='*75)
-            #         logger.info("Third epoch => ILF: 5, 6 layer 1-bit quantized, while PT for 4")
-            #         logger.info('='*75)                                                       
+                                                   
         else:
             PT_ = 3
             # PT = epoch + 1
