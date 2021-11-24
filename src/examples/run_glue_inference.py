@@ -7,7 +7,10 @@ Authors:
 This software may be used only for research evaluation purposes.
 For other purposes (e.g., commercial), please contact the authors.
 """
-""" Inference process of SensiMix"""
+
+""" 
+Inference process of SensiMix
+"""
 
 
 import argparse
