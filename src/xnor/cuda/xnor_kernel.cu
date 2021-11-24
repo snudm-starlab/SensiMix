@@ -19,7 +19,6 @@ For other purposes (e.g., commercial), please contact the authors.
 
 namespace{
 
-
 __device__ uint32_t concatenate(float* array)
 {
     unsigned int rvalue=0;
@@ -31,12 +30,6 @@ __device__ uint32_t concatenate(float* array)
     }
     return rvalue;
 }
-
-// __global__ void encode_rows_kernel(float* input, uint32_t* output, int size)
-// { 
-//     int i = blockIdx.x * blockDim.x + threadIdx.x;
-//     if(i<size) output[i] = concatenate(&input[i*32]);
-// }
 
 __global__ void encode_rows_kernel(float* input, uint32_t* output, int size)
 { 
