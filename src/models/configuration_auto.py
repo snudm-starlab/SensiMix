@@ -73,7 +73,7 @@ class AutoConfig:
 
     @classmethod
     def from_pretrained(cls, pretrained_model_name_or_path, **kwargs):
-        """ Instantiates one of the configuration classes of the library
+        r""" Instantiates one of the configuration classes of the library
         from a pre-trained model configuration.
 
         The configuration class to instantiate is selected
