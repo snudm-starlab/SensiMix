@@ -10,14 +10,14 @@ SensiMix
   │    │     
   │    ├── models
   │    │     ├── configuration_auto.py: configuration class
-  │    │     ├── configuration_mpqbert.py: configuration of the SensiMix model
-  │    │     ├── modeling_mpqbert.py: the SensiMix model
-  │    │     ├── modeling_mpqbert_infer.py: the SensiMix inference model 
-  │    │     ├── optimization.py: optimization classes for the BERT model
+  │    │     ├── configuration_mpqbert.py: configuration of SensiMix
+  │    │     ├── modeling_mpqbert.py: SensiMix
+  │    │     ├── modeling_mpqbert_infer.py: SensiMix for inference
+  │    │     ├── optimization.py: optimization classes for BERT
   │    │     └── quantized_modules.py: quantized classes and functions
   │    │      
   │    └── examples
-  │          ├── run_glue_new.py: train/validate the models on the GLUE benchmark tasks 
+  │          ├── run_glue_new.py: train/validate models on the GLUE benchmark tasks 
   |          └── run_glue_inference.py: load the quantized model and make inference only
   │    
   │    
