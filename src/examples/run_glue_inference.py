@@ -12,7 +12,6 @@ For other purposes (e.g., commercial), please contact the authors.
 Inference process of SensiMix
 """
 
-
 import argparse
 import glob
 import json
@@ -77,10 +76,9 @@ MODEL_CLASSES = {
 }
 
 
-
-
 def dequantization(quantized_tensor, bit, fp_min, fp_max):
-    """ De-quantization function that aims on de-quantize the quantized model
+    """ 
+        De-quantization function that aims on de-quantize the quantized model
         Input: 
             quantized_tensor: quantized int tensor.
             bit: number of quantized bit.
@@ -138,7 +136,7 @@ def train(args, train_dataset, model, tokenizer):
     else:
         t_total = len(train_dataloader) // args.gradient_accumulation_steps * args.num_train_epochs
 
-    # Prepare optimizer and schedule (linear warmup and decay)
+    # Prepare an optimizer and a scheduler (linear warmup and decay)
     no_decay = ["bias", "LayerNorm.weight"]
     optimizer_grouped_parameters = [
         {
