@@ -58,7 +58,7 @@ If other packages are required, use "pip install" to install them.
     bash demo.sh
 
 #### Training & Evaluation
-* Fine-tune the SensiMix model on the GLUE benchmark datasets, run script:
+* Fine-tune SensiMix on the GLUE benchmark datasets, run script:
     ```    
     cd scripts
     bash ft.sh
@@ -132,5 +132,5 @@ If other packages are required, use "pip install" to install them.
 - U Kang ( ukang@snu.ac.kr)
 - Data Mining Lab. at Seoul National University.
 
-*This software may be used only for research evaluation purposes.*
-*For other purposes (e.g., commercial), please contact the authors.*
+* This software may be used only for research evaluation purposes.*
+* For other purposes (e.g., commercial), please contact the authors.*
