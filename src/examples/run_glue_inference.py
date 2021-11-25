@@ -466,16 +466,14 @@ def load_and_cache_examples(args, task, tokenizer, evaluate=False):
 
 
 def main():
-
     parser = argparse.ArgumentParser()
-
     # Required parameters
     parser.add_argument(
         "--data_dir",
         default=None,
         type=str,
         required=True,
-        help="The input data dir. Should contain the .tsv files (or other data files) for the task.",
+        help="The input data directory. Should contain the .tsv files (or other data files) for the task.",
     )
     parser.add_argument(
         "--model_type",
@@ -809,10 +807,7 @@ def main():
             # model_to_save.save_pretrained(args.quantized_model_dir)        # for quantized model
             result = dict((k + "_{}".format(global_step), v) for k, v in result.items())
             results.update(result)
-
-
     return results
-
 
 if __name__ == "__main__":
     main()
