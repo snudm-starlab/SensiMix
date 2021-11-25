@@ -51,12 +51,10 @@ from transformers import glue_convert_examples_to_features as convert_examples_t
 from transformers import glue_output_modes as output_modes
 from transformers import glue_processors as processors
 
-
 try:
     from torch.utils.tensorboard import SummaryWriter
 except ImportError:
     from tensorboardX import SummaryWriter
-
 
 logger = logging.getLogger(__name__)
 
@@ -322,7 +320,7 @@ def train(args, train_dataset, model, tokenizer):
                     print(json.dumps({**logs, **{"step": global_step}}))
 
                 if args.local_rank in [-1, 0] and args.save_steps > 0 and global_step % args.save_steps == 0:
-                    # Save model checkpoint
+                    # Save  model checkpoint
                     output_dir = os.path.join(args.output_dir), "checkpoint-{}".format(global_step)
                     if not os.path.exists(output_dir):
                         os.makedirs(output_dir)
