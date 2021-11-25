@@ -78,7 +78,8 @@ MODEL_CLASSES = {
 
 
 def Binarize(tensor):
-    """ Binarize function: binarize input tensors
+    """ 
+    Binarize function: binarize input tensors
         Input:
             tensor: the input tensor. 
         Output:
@@ -89,7 +90,8 @@ def Binarize(tensor):
 
 
 def quantization(input, bits):
-    """ Combination of quantization and de-quantization function
+    """ 
+    Combination of quantization and de-quantization function
         Input: 
             input: the original full-precision tensor.
             bits: number of quantized bits.
