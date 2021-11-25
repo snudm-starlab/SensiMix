@@ -313,7 +313,7 @@ def train(args, train_dataset, model, tokenizer):
 
 def evaluate(args, model, tokenizer, prefix=""):
     """ 
-        Eval the model 
+        Evaluate the model 
         Input:
             args (arguments), model (pytorch model), tokenizer (BERT tokenizer)    
         Output:
@@ -339,7 +339,7 @@ def evaluate(args, model, tokenizer, prefix=""):
         if args.n_gpu > 1 and not isinstance(model, torch.nn.DataParallel):
             model = torch.nn.DataParallel(model)
 
-        # Eval!
+        # Eval
         logger.info("***** Running evaluation {} *****".format(prefix))
         logger.info("  Num examples = %d", len(eval_dataset))
         logger.info("  Batch size = %d", args.eval_batch_size)
