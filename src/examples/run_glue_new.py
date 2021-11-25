@@ -352,7 +352,7 @@ def train(args, train_dataset, model, tokenizer):
 
 def evaluate(args, model, tokenizer, prefix=""):
     """ 
-        Eval the model
+        Evaludate the model
         Input:
             args (arguments), model (pytorch model), tokenizer (BERT tokenizer)    
         Output:
@@ -398,8 +398,6 @@ def evaluate(args, model, tokenizer, prefix=""):
                         batch[2] if args.model_type in ["bert", "xlnet", "albert"] else None
                     )  # XLM, DistilBERT, RoBERTa, and XLM-RoBERTa don't use segment_ids
                 outputs = model(**inputs)
-                # torch.cuda.synchronize(device="cuda:0")
-
                 tmp_eval_loss, logits = outputs[:2]
 
                 eval_loss += tmp_eval_loss.mean().item()
