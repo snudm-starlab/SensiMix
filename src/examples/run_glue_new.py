@@ -26,7 +26,7 @@ from torch.utils.data import DataLoader, RandomSampler, SequentialSampler, Tenso
 from torch.utils.data.distributed import DistributedSampler
 from tqdm import tqdm, trange
 
-# Pakages that SensiMix needs
+# Pakages for SensiMix
 import xnor_cuda
 from collections import OrderedDict
 import time
