@@ -125,7 +125,6 @@ def set_seed(args):
     if args.n_gpu > 0:
         torch.cuda.manual_seed_all(args.seed)
 
-
 def train(args, train_dataset, model, tokenizer):
     """ 
         Train the model 
@@ -314,7 +313,6 @@ def train(args, train_dataset, model, tokenizer):
                     learning_rate_scalar = scheduler.get_lr()[0]
                     logs["learning_rate"] = learning_rate_scalar
                     logs["loss"] = loss_scalar
-                    #logs["avl_loss"] = avl_loss
                     logging_loss = tr_loss
 
                     for key, value in logs.items():
