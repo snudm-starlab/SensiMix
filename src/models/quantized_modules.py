@@ -18,7 +18,7 @@ def Binarize(tensor):
     """ 
         Binarize function: binarize input tensors
         Input:
-            tensor: the input tensor. 
+            tensor: an input tensor. 
         Output:
             binarized: the binarized tensor.
     """
@@ -34,7 +34,6 @@ def xnor_linear_inference(input, weight, bias=True):
     ret = output
 
     return ret
-
 
 
 class BinarizeLinear_inference(nn.Module):
