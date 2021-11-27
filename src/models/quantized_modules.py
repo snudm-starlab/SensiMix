@@ -36,7 +36,7 @@ def xnor_linear_inference(input, weight, bias=True):
 
 class BinarizeLinear_inference(nn.Module):
     """ 
-        BinarizeLinear_inference class.
+        * BinarizeLinear_inference class:
         This class is for xnor inference which is a modified version of the original nn.Linear that fit the xnor linear.
     """
     def __init__(self, in_features, out_features, bias = True):
