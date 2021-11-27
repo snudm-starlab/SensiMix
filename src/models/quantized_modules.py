@@ -36,7 +36,7 @@ def xnor_linear_inference(input, weight, bias=True):
 
 class BinarizeLinear_inference(nn.Module):
     """ 
-        * BinarizeLinear_inference class:
+        BinarizeLinear_inference class
         This class is for xnor inference which is a modified version of the original nn.Linear that fit the xnor linear.
     """
     def __init__(self, in_features, out_features, bias = True):
@@ -113,7 +113,7 @@ class q_Linear(nn.Linear):
 
 class mix_Linear(nn.Module):
     """
-        * class mix_Linear: provide implementations of 32-bit and 1-bit layers
+        class mix_Linear: provide implementations of 32-bit and 1-bit layers
         Input:
             input (Tensor)
             bit_1_quantize (1-bit quantization flag)
