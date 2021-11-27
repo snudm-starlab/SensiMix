@@ -1,4 +1,5 @@
-#Fine-tune the SensiMix model on the GLUE benchmark datasets
+# Fine-tune the SensiMix model on the GLUE benchmark datasets
+# 
 
 export GLUE_DIR=/home/piaotairen/data/glue_data
 export TASK_NAME=SST-2
