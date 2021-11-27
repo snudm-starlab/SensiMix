@@ -113,7 +113,7 @@ class q_Linear(nn.Linear):
 
 class mix_Linear(nn.Module):
     """
-        class mix_Linear: provide implementations of 32-bit and 1-bit layers
+        * class mix_Linear: provide implementations of 32-bit and 1-bit layers
         Input:
             input (Tensor)
             bit_1_quantize (1-bit quantization flag)
@@ -150,7 +150,6 @@ class mix_Linear(nn.Module):
                 out = nn.functional.linear(input, self.weight.half(), self.bias)
             else:
                 out = nn.functional.linear(input, self.weight, self.bias)
-
 
         # bit_1_quantize: for 1-bit quantization.
         elif bit_1_quantize == True:
