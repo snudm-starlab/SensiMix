@@ -13,7 +13,6 @@ import torch.nn as nn
 import math
 import xnor_cuda
 
-
 def Binarize(tensor):
     """ 
         Binarize function: binarize input tensors
@@ -24,7 +23,6 @@ def Binarize(tensor):
     """
     binarized = torch.where(tensor>0, torch.ones_like(tensor,dtype=torch.float32, device='cuda'), torch.full((tensor.shape),-1, dtype=torch.float32, device='cuda'))
     return binarized
-
 
 def xnor_linear_inference(input, weight, bias=True):
     output = xnor_cuda.test_gemm(input, weight)
@@ -38,8 +36,8 @@ def xnor_linear_inference(input, weight, bias=True):
 
 class BinarizeLinear_inference(nn.Module):
     """ 
-        BinarizeLinear_inference class
-        This class is for xnor inference which modified the original nn.Linear that fit the xnor linear
+        BinarizeLinear_inference class.
+        This class is for xnor inference which is a modified version of the original nn.Linear that fit the xnor linear.
     """
     def __init__(self, in_features, out_features, bias = True):
         super(BinarizeLinear_inference, self).__init__()
