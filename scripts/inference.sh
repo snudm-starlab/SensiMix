@@ -1,4 +1,5 @@
 # Make fast inference
+# Fix the directory path according to your environment
 
 export GLUE_DIR=/home/piaotairen/data/glue_data
 export TASK_NAME=SST-2
