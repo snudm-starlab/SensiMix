@@ -30,7 +30,6 @@ def xnor_linear_inference(input, weight, bias=True):
     if bias is not None:
         output += bias
     ret = output
-
     return ret
 
 
