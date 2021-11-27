@@ -99,7 +99,6 @@ def dequantization(quantized_tensor, bit, fp_min, fp_max):
     return dequantized
 
 
-
 def set_seed(args):
     """ 
         The function that control the random seed 
