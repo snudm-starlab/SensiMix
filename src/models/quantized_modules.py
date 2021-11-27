@@ -78,7 +78,6 @@ def quantization(input, bits):
     quantized = torch.round((input - pmin)*(scale_int / scale_fp)) + quantized_min
     # De-quantization
     dequantized = (quantized - quantized_min)*(scale_fp / scale_int) + pmin
-
     return dequantized
 
 
