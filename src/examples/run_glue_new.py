@@ -73,7 +73,6 @@ MODEL_CLASSES = {
     "mpqbert": (MPQBertConfig, MPQBertForSequenceClassification, BertTokenizer), # Until now dont need a new MPQBertTokenizer 20201025
 }
 
-
 def Binarize(tensor):
     """ 
         Binarize function: binarize input tensors
@@ -84,7 +83,6 @@ def Binarize(tensor):
     """
     binarized = torch.where(tensor>0, torch.ones_like(tensor,dtype=torch.float32, device='cuda'), torch.full((tensor.shape),-1, dtype=torch.float32, device='cuda'))
     return binarized
-
 
 def quantization(input, bits):
     """ 
