@@ -387,7 +387,7 @@ def evaluate(args, model, tokenizer, prefix=""):
                 logger.info("  %s = %s", key, str(result[key]))
                 writer.write("%s = %s\n" % (key, str(result[key])))
 
-        with open(output_eval_file, "a") as writer: # Write the inference time to the file
+        with open(output_eval_file, "a") as writer: # Write inference time to the file
             writer.write(args.task_name)
             writer.write(str(duration*1000))
             writer.write("\n")
