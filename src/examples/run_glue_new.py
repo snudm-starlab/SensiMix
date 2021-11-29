@@ -344,10 +344,9 @@ def train(args, train_dataset, model, tokenizer):
 
     return global_step, tr_loss / global_step
 
-
 def evaluate(args, model, tokenizer, prefix=""):
     """ 
-        Evaludate the model
+        Evaluate the model
         Input:
             args (arguments), model (pytorch model), tokenizer (BERT tokenizer)    
         Output:
