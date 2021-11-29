@@ -729,8 +729,7 @@ def main():
         del model_8bit['bert.encoder.layer.'+str(i)+'.attention.output.dense.q_min']
         del model_8bit['bert.encoder.layer.'+str(i)+'.attention.output.dense.q_max']
 
-    model.load_state_dict(model_8bit)
-    
+    model.load_state_dict(model_8bit)    
 
     if args.local_rank == 0:
         torch.distributed.barrier()  # Make sure only the first process in distributed training will download model & vocab
@@ -738,9 +737,6 @@ def main():
     model.to(args.device)
 
     logger.info("Training/evaluation parameters %s", args)
-
-    
-
 
     # Training
     if args.do_train:
