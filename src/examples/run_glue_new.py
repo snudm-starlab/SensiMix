@@ -419,7 +419,6 @@ def evaluate(args, model, tokenizer, prefix=""):
                 writer.write("%s = %s\n" % (key, str(result[key])))
     return results
 
-
 def load_and_cache_examples(args, task, tokenizer, evaluate=False):
     """ 
         Function that load the dataset
