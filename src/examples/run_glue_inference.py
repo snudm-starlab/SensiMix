@@ -74,7 +74,6 @@ MODEL_CLASSES = {
     "mpqbert": (MPQBertConfig, MPQBertForSequenceClassification_inference, BertTokenizer), # Until now dont need a new MPQBertTokenizer 20210416
 }
 
-
 def dequantization(quantized_tensor, bit, fp_min, fp_max):
     """ 
         De-quantization function that aims on de-quantize the quantized model
