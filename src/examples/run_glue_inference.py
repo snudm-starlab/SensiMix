@@ -113,7 +113,7 @@ def set_seed(args):
 
 def train(args, train_dataset, model, tokenizer):
     """ 
-        Train the model 
+        Train a model 
         Input:
             args (arguments), train_dataset (training set), model (pytorch model), tokenizer (BERT tokenizer)    
         Output:
