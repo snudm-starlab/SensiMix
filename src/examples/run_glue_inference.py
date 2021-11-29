@@ -93,10 +93,8 @@ def dequantization(quantized_tensor, bit, fp_min, fp_max):
     scale_int = quantized_max - quantized_min
 
     # De-quantization
-    dequantized = (quantized_tensor - quantized_min) * (scale_fp / scale_int) + fp_min 
-
+    dequantized = (quantized_tensor - quantized_min) * (scale_fp / scale_int) + fp_min
     return dequantized
-
 
 def set_seed(args):
     """ 
