@@ -116,7 +116,8 @@ class AdamW(Optimizer):
         super().__init__(params, defaults)
 
     def step(self, closure=None):
-        """Performs a single optimization step.
+        """
+        Performs a single optimization step.
 
         Arguments:
             closure (callable, optional): A closure that reevaluates the model
