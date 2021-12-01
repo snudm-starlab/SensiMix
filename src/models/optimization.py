@@ -19,13 +19,15 @@ from torch.optim.lr_scheduler import LambdaLR
 logger = logging.getLogger(__name__)
 
 def get_constant_schedule(optimizer, last_epoch=-1):
-    """ Create a schedule with a constant learning rate.
+    """ 
+    Create a schedule with a constant learning rate.
     """
     return LambdaLR(optimizer, lambda _: 1, last_epoch=last_epoch)
 
 
 def get_constant_schedule_with_warmup(optimizer, num_warmup_steps, last_epoch=-1):
-    """ Create a schedule with a constant learning rate preceded by a warmup
+    """ 
+    Create a schedule with a constant learning rate preceded by a warmup
     period during which the learning rate increases linearly between 0 and 1.
     """
 
@@ -90,7 +92,8 @@ def get_cosine_with_hard_restarts_schedule_with_warmup(
 
 
 class AdamW(Optimizer):
-    """ Implements Adam algorithm with weight decay fix.
+    """ 
+    Implements Adam algorithm with weight decay fix.
 
     Parameters:
         lr (float): learning rate. Default 1e-3.
