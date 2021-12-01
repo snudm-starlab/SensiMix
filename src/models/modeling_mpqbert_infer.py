@@ -721,7 +721,8 @@ class MPQBertPreTrainingHeads(nn.Module):
 
 
 class MPQBertPreTrainedModel(PreTrainedModel):
-    """ An abstract class to handle weights initialization and
+    """ 
+        An abstract class to handle weights initialization and
         a simple interface for downloading and loading pretrained models.
     """
 
@@ -806,17 +807,17 @@ MPQBERT_INPUTS_DOCSTRING = r"""
 class MPQBertModel(MPQBertPreTrainedModel):
     """
 
-    The model can behave as an encoder (with only self-attention) as well
-    as a decoder, in which case a layer of cross-attention is added between
-    the self-attention layers, following the architecture described in `Attention is all you need`_ by Ashish Vaswani,
-    Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser and Illia Polosukhin.
+        The model can behave as an encoder (with only self-attention) as well
+        as a decoder, in which case a layer of cross-attention is added between
+        the self-attention layers, following the architecture described in `Attention is all you need`_ by Ashish Vaswani,
+        Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser and Illia Polosukhin.
 
-    To behave as an decoder the model needs to be initialized with the
-    :obj:`is_decoder` argument of the configuration set to :obj:`True`; an
-    :obj:`encoder_hidden_states` is expected as an input to the forward pass.
+        To behave as an decoder the model needs to be initialized with the
+        :obj:`is_decoder` argument of the configuration set to :obj:`True`; an
+        :obj:`encoder_hidden_states` is expected as an input to the forward pass.
 
-    .. _`Attention is all you need`:
-        https://arxiv.org/abs/1706.03762
+        .. _`Attention is all you need`:
+            https://arxiv.org/abs/1706.03762
 
     """
 
