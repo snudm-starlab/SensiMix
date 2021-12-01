@@ -8,9 +8,7 @@ This software may be used only for research evaluation purposes.
 For other purposes (e.g., commercial), please contact the authors.
 """
 
-""" 
-Fine-tuning the library models for sequence classification on GLUE benchmark tasks
-"""
+""" Fine-tuning the library models for sequence classification on GLUE benchmark tasks"""
 
 import argparse
 import glob
