@@ -1,5 +1,4 @@
-"""
-SensiMix: Sensitivity-Aware 8-bit Index & 1-bit Value Mixed Precision Quantization for BERT Compression
+"""SensiMix: Sensitivity-Aware 8-bit Index & 1-bit Value Mixed Precision Quantization for BERT Compression
 Authors:
 - Tairen Piao (piaotairen@snu.ac.kr), Seoul National University
 - Ikhyun Cho (ikhyuncho@snu.ac.kr), Seoul National University
@@ -42,14 +41,13 @@ MPQBertLayerNorm = torch.nn.LayerNorm
 
 
 class MPQBertEmbeddings(nn.Module):
-    """
-        Construct the embeddings from word, position and token_type embeddings.
-        Input:
-            input_ids (the input words ids),
-            token_type_ids (the input words type ids),
-            position_ids (the input words position ids)
-        Output:
-            Word Embedidng (batch_size, max_seq_length, hidden_size)
+    """Construct the embeddings from word, position and token_type embeddings.
+            Input:
+                input_ids (the input words ids),
+                token_type_ids (the input words type ids),
+                position_ids (the input words position ids)
+            Output:
+                Word Embedidng (batch_size, max_seq_length, hidden_size)
     """
 
     def __init__(self, config):
@@ -90,9 +88,8 @@ class MPQBertEmbeddings(nn.Module):
 
 
 class MPQBertSelfAttention(nn.Module):
-    """
-        Implementation of the self-attention layer.
-        Detailed theory can be found in the paper "Attention Is All You Need"
+    """Implementation of the self-attention layer.
+       Detailed theory can be found in the paper "Attention Is All You Need"
         Input:
             hidden_state (batch_size, max_seq_length, hidden_size)
         Output:
@@ -181,9 +178,8 @@ class MPQBertSelfAttention(nn.Module):
 
 
 class MPQBertSelfAttentionp(nn.Module):
-    """
-        Implementation of the self-attention layer.
-        Detailed theory can be found in the paper "Attention Is All You Need"
+    """Implementation of the self-attention layer.
+       Detailed theory can be found in the paper "Attention Is All You Need"
         Input:
             hidden_state (batch_size, max_seq_length, hidden_size)
         Output:
@@ -256,8 +252,6 @@ class MPQBertSelfAttentionp(nn.Module):
         if head_mask is not None:
             attention_probs = attention_probs * head_mask
 
-        # print(attention_probs.shape,value_layer.shape)
-
         # attention_probs = torch.randn(value_layer.size(0),value_layer.size(1),value_layer.size(2),value_layer.size(3)).to(device = 'cuda:0')
 
         context_layer = torch.matmul(attention_probs, value_layer)
@@ -270,10 +264,8 @@ class MPQBertSelfAttentionp(nn.Module):
         return outputs
 
 class MPQBertSelfOutput(nn.Module):
-    """
-        MQPBertSelfOutput: Implementation of W_o
-        which is a simple Linear layer
-    """
+    """MQPBertSelfOutput: Implementation of W_o which is a simple Linear layer"""
+    
     def __init__(self, config):
         super().__init__()
         self.num_attention_heads = config.num_attention_heads
