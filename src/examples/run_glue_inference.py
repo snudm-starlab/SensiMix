@@ -71,15 +71,14 @@ MODEL_CLASSES = {
 }
 
 def dequantization(quantized_tensor, bit, fp_min, fp_max):
-    """ 
-        De-quantization function that aims on de-quantize the quantized model
-        Input: 
-            quantized_tensor: quantized int tensor.
-            bit: number of quantized bit.
-            fp_min: the minimum full-precision weight.
-            fp_max: the maxmimum full-precision weight.
-        Output:
-            dequantized: the de-quantized tensor.
+    """ De-quantization function that aims on de-quantize the quantized model
+            Input: 
+                quantized_tensor: quantized int tensor.
+                bit: number of quantized bit.
+                fp_min: the minimum full-precision weight.
+                fp_max: the maxmimum full-precision weight.
+            Output:
+                dequantized: the de-quantized tensor.
     """
 
     scale_fp = fp_max - fp_min
@@ -92,12 +91,11 @@ def dequantization(quantized_tensor, bit, fp_min, fp_max):
     return dequantized
 
 def set_seed(args):
-    """ 
-        The function that control the random seed 
-        Input:
-            args (arguments)
-        Output:
-            None
+    """ The function that control the random seed 
+            Input:
+                args (arguments)
+            Output:
+                None
     """
     random.seed(args.seed)
     np.random.seed(args.seed)
