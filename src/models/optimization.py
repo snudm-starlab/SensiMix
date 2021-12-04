@@ -26,8 +26,7 @@ def get_constant_schedule(optimizer, last_epoch=-1):
 
 
 def get_constant_schedule_with_warmup(optimizer, num_warmup_steps, last_epoch=-1):
-    """ 
-    Create a schedule with a constant learning rate preceded by a warmup
+    """Create a schedule with a constant learning rate preceded by a warmup
     period during which the learning rate increases linearly between 0 and 1.
     """
 
@@ -40,8 +39,7 @@ def get_constant_schedule_with_warmup(optimizer, num_warmup_steps, last_epoch=-1
 
 
 def get_linear_schedule_with_warmup(optimizer, num_warmup_steps, num_training_steps, last_epoch=-1):
-    """ 
-    Create a schedule with a learning rate that decreases linearly after
+    """Create a schedule with a learning rate that decreases linearly after
     linearly increasing during a warmup period.
     """
 
@@ -56,8 +54,7 @@ def get_linear_schedule_with_warmup(optimizer, num_warmup_steps, num_training_st
 
 
 def get_cosine_schedule_with_warmup(optimizer, num_warmup_steps, num_training_steps, num_cycles=0.5, last_epoch=-1):
-    """ 
-    Create a schedule with a learning rate that decreases following the
+    """ Create a schedule with a learning rate that decreases following the
     values of the cosine function between 0 and `pi * cycles` after a warmup
     period during which it increases linearly between 0 and 1.
     """
@@ -73,9 +70,8 @@ def get_cosine_schedule_with_warmup(optimizer, num_warmup_steps, num_training_st
 
 def get_cosine_with_hard_restarts_schedule_with_warmup(
     optimizer, num_warmup_steps, num_training_steps, num_cycles=1.0, last_epoch=-1
-):
-    """ 
-    Create a schedule with a learning rate that decreases following the
+    ):
+    """Create a schedule with a learning rate that decreases following the
     values of the cosine function with several hard restarts, after a warmup
     period during which it increases linearly between 0 and 1.
     """
@@ -92,8 +88,7 @@ def get_cosine_with_hard_restarts_schedule_with_warmup(
 
 
 class AdamW(Optimizer):
-    """ 
-    Implements Adam algorithm with weight decay fix.
+    """Implements Adam algorithm with weight decay fix.
 
     Parameters:
         lr (float): learning rate. Default 1e-3.
@@ -116,8 +111,7 @@ class AdamW(Optimizer):
         super().__init__(params, defaults)
 
     def step(self, closure=None):
-        """
-        Performs a single optimization step.
+        """Performs a single optimization step.
 
         Arguments:
             closure (callable, optional): A closure that reevaluates the model
