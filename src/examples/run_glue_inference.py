@@ -1,5 +1,4 @@
-"""
-SensiMix: Sensitivity-Aware 8-bit Index & 1-bit Value Mixed Precision Quantization for BERT Compression
+"""SensiMix: Sensitivity-Aware 8-bit Index & 1-bit Value Mixed Precision Quantization for BERT Compression
 Authors:
 - Tairen Piao (piaotairen@snu.ac.kr), Seoul National University
 - Ikhyun Cho (ikhyuncho@snu.ac.kr), Seoul National University
@@ -16,7 +15,6 @@ import json
 import logging
 import os
 import random
-
 import numpy as np
 import torch
 from torch.utils.data import DataLoader, RandomSampler, SequentialSampler, TensorDataset
@@ -109,12 +107,11 @@ def set_seed(args):
 
 
 def train(args, train_dataset, model, tokenizer):
-    """ 
-        Train a model 
-        Input:
-            args (arguments), train_dataset (training set), model (pytorch model), tokenizer (BERT tokenizer)    
-        Output:
-            global_step, tr_loss / global_step
+    """ Train a model 
+            Input:
+                args (arguments), train_dataset (training set), model (pytorch model), tokenizer (BERT tokenizer)    
+            Output:
+                global_step, tr_loss / global_step
     """
     if args.local_rank in [-1, 0]:
         tb_writer = SummaryWriter()
