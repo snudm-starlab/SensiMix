@@ -125,7 +125,21 @@ If other packages are required, use "pip install" to install them.
         --quantized_model_dir ./experiments/$TASK_NAME/quantized \
         --overwrite_output_dir \
     ```
-    
+
+## Citation
+
+Please cite the following paper if you use our code:
+```
+@article{PiaoCK22,
+  title={SensiMix: Sensitivity-Aware 8-bit index \& 1-bit value mixed precision quantization for BERT compression},
+  author={Piao, Tairen and Cho, Ikhyun and Kang, U},
+  journal={PloS one},
+  volume={17},
+  number={4},
+  year={2022},
+}
+```
+
 ## Contact us
 - Tairen Piao ( piaotairen@snu.ac.kr)
 - Ikhyun Cho ( ikhyuncho@snu.ac.kr)
